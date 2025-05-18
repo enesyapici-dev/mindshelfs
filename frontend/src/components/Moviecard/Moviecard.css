@@ -1,0 +1,67 @@
+.movie-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+.movie-card-media {
+  width: 20vw; /* Ekran genişliğinin %20’si */
+  max-width: 120px; /* Çok büyümesin */
+  min-width: 80px; /* Çok küçülmesin */
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+.movie-card-poster {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+.movie-card-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.movie-card-details {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.movie-card-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.movie-card-director {
+  margin: 0;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 0.5rem;
+}
+.movie-card-meta {
+  margin: 0;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.movie-card-rating {
+  font-size: 1.5rem;
+  margin: 0;
+}
+.movie-card-rating span {
+  color: goldenrod;
+}
+.movie-card-user-stats {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+}
+.movie-card-user-rating span {
+  color: goldenrod;
+}
