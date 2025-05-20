@@ -33,7 +33,7 @@ const WatchedMovies = () => {
     },
   ];
 
-  const [search, setSearch] = useState("");
+  const [searchQuery, setsearchQuery] = useState("");
   const [movies, setMovies] = useState(moviedata);
 
   const watchedsubmit = (e) => {
@@ -42,7 +42,7 @@ const WatchedMovies = () => {
   };
   const handlechange = (e) => {
     const value = e.target.value;
-    setSearch(value);
+    setsearchQuery(value);
 
     const filtered = moviedata.filter((movie) =>
       movie.title.toLowerCase().includes(value.toLowerCase())
