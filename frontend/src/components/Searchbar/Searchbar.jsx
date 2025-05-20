@@ -4,8 +4,8 @@ import "./Searchbar.css";
 const Searchbar = ({ onsubmit, onchange, placeholder }) => {
   const watchedsubmit = () => {};
   return (
-    <div>
-      <form onSubmit={onsubmit}>
+    <div className="search-cont">
+      <form onSubmit={onsubmit} className="search-from">
         <input
           type="text"
           placeholder={placeholder}

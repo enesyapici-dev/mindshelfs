@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Movielist from "../Movielist/Movielist";
 import Searchbar from "../Searchbar/Searchbar";
+import "./WatchedMovies.css"
 
 const WatchedMovies = () => {
   const moviedata = [
@@ -50,14 +51,14 @@ const WatchedMovies = () => {
     setMovies(filtered);
   };
   return (
-    <>
+    <div className="watched-movies">
       <Searchbar
         placeholder={"Search your movies..."}
         onsubmit={watchedsubmit}
         onchange={handlechange}
       />
       <Movielist movies={movies} />
-    </>
+    </div>
   );
 };
 

@@ -1,15 +1,15 @@
-.navbar {
-  position: fixed;
+.navbar { 
+  
   top: 0;
   width: 100%;
-  left: 0;
   z-index: 1000;
   display: flex;
-  justify-content: center; /* Ortala */
+  justify-content: center;
   align-items: center;
-  padding: 20px 0;
-  background: rgba(20, 20, 20, 0.95); /* Arka plan ekle, şeffaf olabilir */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 18px 0;
+  background: rgba(20, 20, 20, 0.95); 
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(4px);
 }
 
 .navbar-content {
@@ -20,18 +20,37 @@
   align-items: center;
   padding: 0 2rem;
 }
+
 .nav-brand {
-  color: white;
+  color: #fff;
   font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 8px 24px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.10);
+  transition: background 0.2s;
 }
 
 .navbar-links {
   display: flex;
   gap: 1.2rem;
 }
+
 .nav-link {
-  color: white;
-  font-weight: lighter;
-  text-decoration: underline;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
   letter-spacing: 1px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  transition: background 0.2s, color 0.2s;
+  background: transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: linear-gradient(90deg, #e53935 0%, #ff1744 100%);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(229, 57, 53, 0.10);
 }
