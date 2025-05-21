@@ -67,7 +67,6 @@ const Movieshelf = () => {
     <div className="movieshelf-cont">
       <Searchbar
         placeholder={"Search your movies..."}
-        onsubmit={watchedsubmit}
         onchange={handleChange}
         searchmode={handleSearch}
         searchComponent={filterQuery}
