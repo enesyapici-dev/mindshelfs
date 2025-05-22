@@ -10,7 +10,7 @@ const WatchedMovies = ({movies}) => {
   
   return (
     <div className="watched-movies">
-      <Movielist movies={movies} />
+      <Movielist movies={movies} cardType={"watched"} />
     </div>
   );
 };

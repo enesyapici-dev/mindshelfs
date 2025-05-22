@@ -4,9 +4,9 @@ import Movielist from '../Movielist/Movielist'
 const Allmovies = ({movies}) => {
   return (
     <div>
-      <Movielist movies={movies} />
+      <Movielist movies={movies} cardType={"allmoviecard"} />
     </div>
-  )
+  );
 }
 
 export default Allmovies

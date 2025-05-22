@@ -1,35 +1,48 @@
 import React from "react";
 import "./Moviecard.css";
 
-const Moviecard = ({ movie, userStats }) => {
+const Moviecard = ({ movie, userStats, cardType }) => {
+  const isAllMovie = cardType === "allmoviecard";
+  const isWatched = cardType === "watched";
+
+  const title = movie.title;
+
+  const poster = isAllMovie
+    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+    : movie.url || "";
+  const year = movie.release_date
+    ? movie.release_date.toString().slice(0, 4)
+    : "";
+  const rating = isAllMovie
+    ? movie.vote_average
+      ? Number(movie.vote_average).toFixed(1)
+      : ""
+    : movie.rating;
+  const director = isAllMovie ? "" : movie.director;
+  const duration = isAllMovie ? "" : movie.duration;
+
   return (
     <div className="movie-card">
       <div className="movie-card-media">
-        <img
-          className="movie-card-poster"
-          src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : ""
-          }
-          alt={movie.title}
-        />
+        <img className="movie-card-poster" src={poster} alt={title} />
       </div>
 
       <div className="movie-card-content">
         <div className="movie-card-details">
-          <h2 className="movie-card-title">{movie.title}</h2>
-          <h3 className="movie-card-director">{movie.title}</h3>
+          <h2 className="movie-card-title">{title}</h2>
+          <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
           <p className="movie-card-meta">
-            <span className="movie-card-year">{movie.release_date}</span>
-            <span className="movie-card-separator"> • </span>
-            <span className="movie-card-duration">
-              {movie.vote_average} min
-            </span>
+            <span className="movie-card-year">{year}</span>
+            {isWatched && (
+              <>
+                <span className="movie-card-separator"> • </span>
+                <span className="movie-card-duration">{duration} min</span>
+              </>
+            )}
           </p>
           <p className="movie-card-rating">
             <span>★ </span>
-            {movie.vote_average.toFixed(1)}
+            {rating}
           </p>
         </div>
         <div className="movie-card-user-stats">
