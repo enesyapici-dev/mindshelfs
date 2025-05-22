@@ -5,6 +5,7 @@ import Searchbar from "../../components/Searchbar/Searchbar";
 import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
 import { getPopulerMovies, searchMovies } from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
+import Loading from "../../components/Loading/Loading";
 
 const movieData = [
   {
@@ -115,9 +116,7 @@ const Movieshelf = () => {
         selected={filterQuery}
       />
       {loading ? (
-        <div>
-          <p>Loading...</p>
-        </div>
+        <Loading />
       ) : error ? (
         <div>
           <p>{error}</p>
@@ -125,7 +124,7 @@ const Movieshelf = () => {
       ) : filterQuery === "Watched" ? (
         <WatchedMovies movies={movies} />
       ) : filterQuery === "Watch List" ? (
-        <h1>WATCH LIST</h1>
+        <Loading />
       ) : (
         <Allmovies movies={movies} />
       )}

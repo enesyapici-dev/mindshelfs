@@ -4,7 +4,7 @@
   padding: 2rem;
   border-left: 2px solid var(--color-dark);
   border-right: 2px solid var(--color-dark);
-  height: calc(100vh - 90px);
+  height: calc(100vh - 85px);
   overflow: hidden;
   padding-bottom: 2rem;
 }
