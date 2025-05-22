@@ -5,21 +5,31 @@ const Moviecard = ({ movie, userStats }) => {
   return (
     <div className="movie-card">
       <div className="movie-card-media">
-        <img className="movie-card-poster" src={movie.url} alt={movie.title} />
+        <img
+          className="movie-card-poster"
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : ""
+          }
+          alt={movie.title}
+        />
       </div>
 
       <div className="movie-card-content">
         <div className="movie-card-details">
           <h2 className="movie-card-title">{movie.title}</h2>
-          <h3 className="movie-card-director">{movie.director}</h3>
+          <h3 className="movie-card-director">{movie.title}</h3>
           <p className="movie-card-meta">
-            <span className="movie-card-year">{movie.year}</span>
+            <span className="movie-card-year">{movie.release_date}</span>
             <span className="movie-card-separator"> • </span>
-            <span className="movie-card-duration">{movie.duration} min</span>
+            <span className="movie-card-duration">
+              {movie.vote_average} min
+            </span>
           </p>
           <p className="movie-card-rating">
             <span>★ </span>
-            {movie.rating}
+            {movie.vote_average.toFixed(1)}
           </p>
         </div>
         <div className="movie-card-user-stats">
