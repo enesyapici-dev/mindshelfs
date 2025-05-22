@@ -85,7 +85,11 @@ const Movieshelf = () => {
         categories={categories}
         onCategoryChange={handleCategoryChange}
       />
-      {filterQuery === "Watched" ? (
+      {loading ? (
+        <div>
+          <p>Loading...</p>
+        </div>
+      ) : filterQuery === "Watched" ? (
         <WatchedMovies movies={moviedata} />
       ) : filterQuery === "Watch List" ? (
         <h1>WATCH LIST</h1>
