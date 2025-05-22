@@ -5,92 +5,125 @@ import Searchbar from "../../components/Searchbar/Searchbar";
 import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
 import { getPopulerMovies, searchMovies } from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
+
+const movieData = [
+  {
+    title: "Inception",
+    director: "Christopher Nolan",
+    release_date: 2010,
+    duration: 148,
+    rating: 8.8,
+    url: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
+    userStats: { rating: 9, watchedDate: "2024-05-10" },
+  },
+  {
+    title: "Interstellar",
+    director: "Christopher Nolan",
+    release_date: 2014,
+    duration: 169,
+    rating: 8.6,
+    url: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg",
+    userStats: { rating: 10, watchedDate: "2024-05-12" },
+  },
+  {
+    title: "The Matrix",
+    director: "Lana Wachowski, Lilly Wachowski",
+    release_date: 1999,
+    duration: 136,
+    rating: 8.7,
+    url: "https://m.media-amazon.com/images/I/51EG732BV3L.jpg",
+    userStats: { rating: 8, watchedDate: "2024-05-15" },
+  },
+];
+
+const categories = [
+  { title: "All Movies" },
+  { title: "Watched" },
+  { title: "Watch List" },
+];
+
 const Movieshelf = () => {
-  const categories = [
-    { title: "All Movies" },
-    { title: "Watched" },
-    { title: "Watch List" },
-  ];
-  const moviedata = [
-    {
-      title: "Inception",
-      director: "Christopher Nolan",
-      release_date: 2010,
-      duration: 148,
-      rating: 8.8,
-      url: "https://m.media-amazon.com/images/I/51v5ZpFyaFL._AC_.jpg",
-      userStats: { rating: 9, watchedDate: "2024-05-10" },
-    },
-    {
-      title: "Interstellar",
-      director: "Christopher Nolan",
-      release_date: 2014,
-      duration: 169,
-      rating: 8.6,
-      url: "https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg",
-      userStats: { rating: 10, watchedDate: "2024-05-12" },
-    },
-    {
-      title: "The Matrix",
-      director: "Lana Wachowski, Lilly Wachowski",
-      release_date: 1999,
-      duration: 136,
-      rating: 8.7,
-      url: "https://m.media-amazon.com/images/I/51EG732BV3L.jpg",
-      userStats: { rating: 8, watchedDate: "2024-05-15" },
-    },
-  ];
   const [searchQuery, setSearchQuery] = useState("");
   const [filterQuery, setFilterQuery] = useState(categories[0].title);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [allMovies, setAllMovies] = useState([]);
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadPopularMovies = async () => {
-      try {
-        const popularMovies = await getPopulerMovies();
-        setMovies(popularMovies);
-        setAllMovies(popularMovies);
-      } catch (err) {
-        setError("Failed to loading movies...");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadPopularMovies();
-  }, []);
+    setLoading(true);
+    if (filterQuery === "Watched") {
+      setAllMovies(movieData);
+      setMovies(movieData);
+      setLoading(false);
+    } else if (filterQuery === "All Movies") {
+      getPopulerMovies()
+        .then((popularMovies) => {
+          setAllMovies(popularMovies);
+          setMovies(popularMovies);
+        })
+        .catch(() => setError("Failed to load movies..."))
+        .finally(() => setLoading(false));
+    } else {
+      setAllMovies([]);
+      setMovies([]);
+      setLoading(false);
+    }
+    setSearchQuery("");
+  }, [filterQuery]);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
 
-    const filtered = allMovies.filter((movie) =>
-      movie.title.toLowerCase().includes(value.toLowerCase())
-    );
-    setMovies(filtered);
+    if (filterQuery === "Watched") {
+      const filtered = allMovies.filter((movie) =>
+        movie.title.toLowerCase().includes(value.toLowerCase())
+      );
+      setMovies(filtered);
+    } else if (filterQuery === "All Movies") {
+      if (value.trim() === "") {
+        setMovies(allMovies);
+      } else {
+        setLoading(true);
+        try {
+          const results = await searchMovies(value);
+          setMovies(results);
+        } catch {
+          setError("Failed to search movies...");
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
   };
 
   const handleCategoryChange = (category) => {
     setFilterQuery(category);
   };
+
   return (
     <div className="movieshelf-cont">
       <Searchbar
         placeholder={"Search your movies..."}
         onchange={handleChange}
+        value={searchQuery}
       />
       <ShelfFilter
         categories={categories}
         onCategoryChange={handleCategoryChange}
+        selected={filterQuery}
       />
       {loading ? (
         <div>
           <p>Loading...</p>
         </div>
+      ) : error ? (
+        <div>
+          <p>{error}</p>
+        </div>
       ) : filterQuery === "Watched" ? (
-        <WatchedMovies movies={moviedata} />
+        <WatchedMovies movies={movies} />
       ) : filterQuery === "Watch List" ? (
         <h1>WATCH LIST</h1>
       ) : (

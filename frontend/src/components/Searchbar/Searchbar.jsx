@@ -1,7 +1,7 @@
 import React from "react";
 import "./Searchbar.css";
 
-const Searchbar = ({ onsubmit, onchange, placeholder }) => {
+const Searchbar = ({ onsubmit, onchange, placeholder, value }) => {
   return (
     <div className="search-cont">
       <form onSubmit={onsubmit} className="search-from">
@@ -10,6 +10,7 @@ const Searchbar = ({ onsubmit, onchange, placeholder }) => {
           placeholder={placeholder}
           className="search-input"
           onChange={onchange}
+          value={value}
         />
       </form>
     </div>
