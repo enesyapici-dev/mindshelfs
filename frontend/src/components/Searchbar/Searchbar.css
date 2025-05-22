@@ -1,22 +1,23 @@
 .search-from {
   display: flex;
   align-items: center;
-  background: #fff;
-  border-radius: 999px; 
+  background: var(--color-light-gray);
+    border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.10);
   padding: 0; 
   overflow: hidden; 
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+    border: var(--color-dark) 2px solid;
 }
 
 .search-input {
   border: none;
   outline: none;
   background: transparent;
-  color: #000;
+  color: var(--color-dark);
   font-size: 1.1rem;
-  width: 220px;
-  padding: 12px 18px;
+width: 100%;
+  padding: 1rem 2rem;
   border-radius: 0; 
 }
 

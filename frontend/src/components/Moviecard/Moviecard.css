@@ -2,13 +2,13 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 1rem;
+
   box-sizing: border-box;
 }
 .movie-card-media {
-  width: 20vw; /* Ekran genişliğinin %20’si */
-  max-width: 120px; /* Çok büyümesin */
-  min-width: 80px; /* Çok küçülmesin */
+  width: 20vw;
+    max-width: 120px;
+    min-width: 80px;
   aspect-ratio: 2/3;
   overflow: hidden;
   border-radius: 10px;
