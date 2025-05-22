@@ -51,15 +51,7 @@ const Movieshelf = () => {
     );
     setMovies(filtered);
   };
-  const handleSearch = (mode) => {
-    const value = e.target.value;
-    setSearchQuery(value);
 
-    const filtered = moviedata.filter((movie) =>
-      movie.title.toLowerCase().includes(value.toLowerCase())
-    );
-    setMovies(filtered);
-  };
   const handleCategoryChange = (category) => {
     setFilterQuery(category);
   };
@@ -68,8 +60,6 @@ const Movieshelf = () => {
       <Searchbar
         placeholder={"Search your movies..."}
         onchange={handleChange}
-        searchmode={handleSearch}
-        searchComponent={filterQuery}
       />
       <ShelfFilter
         categories={categories}

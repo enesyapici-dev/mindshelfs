@@ -11,9 +11,6 @@ const Searchbar = ({ onsubmit, onchange, placeholder }) => {
           className="search-input"
           onChange={onchange}
         />
-        <button className="search-button" type="submit">
-          Search
-        </button>
       </form>
     </div>
   );
