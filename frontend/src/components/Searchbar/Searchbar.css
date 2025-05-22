@@ -2,12 +2,12 @@
   display: flex;
   align-items: center;
   background: var(--color-light-gray);
-    border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  padding: 0; 
-  overflow: hidden; 
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  overflow: hidden;
   margin-bottom: 1rem;
-    border: var(--color-dark) 2px solid;
+  border: var(--color-dark) 2px solid;
 }
 
 .search-input {
@@ -16,9 +16,9 @@
   background: transparent;
   color: var(--color-dark);
   font-size: 1.1rem;
-width: 100%;
-  padding: 1rem 2rem;
-  border-radius: 0; 
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0;
 }
 
 .search-input::placeholder {
@@ -32,12 +32,12 @@ width: 100%;
   color: #fff;
   font-size: 1rem;
   padding: 12px 28px;
-  border-radius: 0 999px 999px 0; 
+  border-radius: 0 999px 999px 0;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.2s, box-shadow 0.2s;
   box-shadow: none;
-  margin-left: 0; 
+  margin-left: 0;
 }
 
 .search-button:hover {

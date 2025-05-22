@@ -8,8 +8,8 @@
 }
 .movie-card-media {
   width: 20vw;
-  max-width: 120px;
-  min-width: 80px;
+  max-width: 100px;
+  min-width: 60px;
   aspect-ratio: 2/3;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);

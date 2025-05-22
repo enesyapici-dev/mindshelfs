@@ -1,8 +1,9 @@
 .movie-list {
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-width: 1200px;
-  height: calc(100vh - 400px);
+  height: calc(100vh - 345px);
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-dark) transparent;
