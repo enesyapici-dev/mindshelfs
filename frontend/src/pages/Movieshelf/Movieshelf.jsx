@@ -4,11 +4,12 @@ import "./Movieshelf.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
 import { getPopulerMovies, searchMovies } from "../../services/api";
+import Allmovies from "../../components/Allmovies/Allmovies";
 const Movieshelf = () => {
   const categories = [
+    { title: "All Movies" },
     { title: "Watched" },
     { title: "Watch List" },
-    { title: "Favorites" },
   ];
   const [searchQuery, setSearchQuery] = useState("");
   const [filterQuery, setFilterQuery] = useState(categories[0].title);
@@ -60,7 +61,7 @@ const Movieshelf = () => {
       ) : filterQuery === "Watch List" ? (
         <h1>WATCH LIST</h1>
       ) : (
-        <h1>fAVORITES</h1>
+        <Allmovies movies={movies} />
       )}
     </div>
   );
