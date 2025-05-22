@@ -1,6 +1,9 @@
 :root {
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --color-red: #e63946;
+    --color-light-gray: #f1f1f1;
+    --color-dark: #222326;
+    color: var(--color-dark);
+    background-color: var(--color-light-gray);
 }
 
 * {
