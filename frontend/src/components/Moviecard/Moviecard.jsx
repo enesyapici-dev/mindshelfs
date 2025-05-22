@@ -30,6 +30,10 @@ const Moviecard = ({ movie, userStats, cardType }) => {
       <div className="movie-card-content">
         <div className="movie-card-details">
           <h2 className="movie-card-title">{title}</h2>
+          <p className="movie-card-rating">
+            <span>★ </span>
+            {rating}
+          </p>
           <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
           <p className="movie-card-meta">
             <span className="movie-card-year">{year}</span>
@@ -40,12 +44,8 @@ const Moviecard = ({ movie, userStats, cardType }) => {
               </>
             )}
           </p>
-          <p className="movie-card-rating">
-            <span>★ </span>
-            {rating}
-          </p>
         </div>
-        <div className="movie-card-user-stats">
+        <div className="movie-card-user-stats-buttons">
           {userStats ? (
             <>
               <span className="movie-card-user-rating">
@@ -58,7 +58,7 @@ const Moviecard = ({ movie, userStats, cardType }) => {
           ) : (
             <>
               <button className="movie-card-button">Mark as Watched</button>
-              <button className="movie-cardbutton">Add to Watchlist</button>
+              <button className="movie-card-button">Add to Watchlist</button>
             </>
           )}
         </div>

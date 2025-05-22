@@ -1,8 +1,10 @@
-.movieshelf-cont{
-    width: 1200px;
-    margin: 0 auto;
-        padding: 2rem;
-        border-left: 2px solid var(--color-dark);
-        border-right: 2px solid var(--color-dark);
-    
+.movieshelf-cont {
+  width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-left: 2px solid var(--color-dark);
+  border-right: 2px solid var(--color-dark);
+  height: calc(100vh - 204px);
+  overflow: hidden;
+  padding-bottom: 2rem;
 }

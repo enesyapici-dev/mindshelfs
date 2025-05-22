@@ -5,6 +5,7 @@ import Movieshelf from "./pages/Movieshelf/Movieshelf";
 import Home from "./pages/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,6 +20,7 @@ function App() {
           <Route path="/movieshelf" element={<Movieshelf />}></Route>
         </Routes>
       </main>
+      <Footer />
     </>
   );
 }

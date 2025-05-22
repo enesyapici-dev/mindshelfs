@@ -7,7 +7,6 @@ const Movielist = ({ movies, cardType }) => {
     <div className="movie-list">
       {movies.map((movie) => (
         <div key={movie.title}>
-          <hr className="movie-divider" />
           <Moviecard
             movie={movie}
             userStats={movie.userStats}

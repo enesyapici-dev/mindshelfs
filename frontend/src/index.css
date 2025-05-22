@@ -4,6 +4,7 @@
     --color-dark: #222326;
     color: var(--color-dark);
     background-color: var(--color-light-gray);
+    
 }
 
 * {
