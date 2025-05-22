@@ -6,12 +6,14 @@ import Home from "./pages/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <>
+      <Sidebar />
       <Navbar />
       <main className="main-content">
         <Routes>

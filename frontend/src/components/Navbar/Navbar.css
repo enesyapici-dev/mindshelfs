@@ -1,12 +1,14 @@
 .navbar {
+  position: sticky;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 200;
   display: flex;
   justify-content: center;
   align-items: center;
   border-bottom: 2px solid var(--color-dark);
   box-sizing: border-box;
+  background-color: var(--color-light-gray);
 }
 
 .navbar-content {
@@ -24,7 +26,7 @@
 .nav-brand {
   color: var(--color-dark);
   font-size: 2.4rem;
-  font-weight: 200;
+  font-weight: 400;
   padding: 8px 0px;
   text-decoration: none;
 }

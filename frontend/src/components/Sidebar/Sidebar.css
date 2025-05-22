@@ -1,0 +1,65 @@
+.sidebar-cont {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 20vw;
+  z-index: 100;
+  background: var(--color-dark);
+  color: var(--color-light-gray);
+  transition: transform 0.3s;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transform: translateX(-80%);
+  cursor: pointer;
+}
+.sidebar-cont:hover {
+  transform: translateX(0%);
+}
+.sidebar-cont:hover .arrow-icon {
+  transform: rotateZ(180deg);
+}
+.menu-button {
+  position: absolute;
+  right: 0;
+  padding: 20px;
+  font-size: 2.5rem;
+  color: var(--color-dark);
+  background-color: var(--color-light-gray);
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-right: 2px solid var(--color-dark);
+  border-left: 2px solid var(--color-dark);
+}
+.arrow-icon {
+  transform: rotateZ(0deg);
+  transition: transform 0.3s;
+}
+.menu-content {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.sidemenu-header {
+  font-size: 3rem;
+}
+.sidemenu-list {
+  list-style: none;
+}
+.sidemenu-li {
+  color: var(--color-light-gray);
+  font-weight: 100;
+  text-decoration: none;
+  letter-spacing: 2px;
+  padding: 8px 0px;
+  border-radius: 5px;
+  font-size: 1rem;
+}

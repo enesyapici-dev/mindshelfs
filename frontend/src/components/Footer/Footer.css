@@ -2,11 +2,13 @@
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 200;
   height: 80px;
   width: 100%;
   border-top: 2px solid var(--color-dark);
   display: flex;
   justify-content: center;
+  background-color: var(--color-light-gray);
 }
 .footer-content {
   border-right: 2px solid var(--color-dark);
@@ -19,9 +21,9 @@
   padding: 0 2rem;
 }
 .footer-header {
-  color: var(--color-dark);
+  color: var(--color-red);
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 500;
   padding: 8px 0px;
   text-decoration: none;
 }

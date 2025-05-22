@@ -1,18 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap");
+
 :root {
   --color-red: #e63946;
-    --color-light-gray: #f1f1f1;
-    --color-dark: #222326;
-    color: var(--color-dark);
-    background-color: var(--color-light-gray);
-    
+  --color-light-gray: #f1f1f1;
+  --color-dark: #222326;
+  color: var(--color-dark);
+  background-color: var(--color-light-gray);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Helvetica;
+  font-family: "Inter", Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
 }
