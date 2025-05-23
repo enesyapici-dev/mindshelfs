@@ -26,10 +26,14 @@ const movieSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    isWatched: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
-    timestaps: true,
+    timestamps: true,
   }
 );
 
-export const Book = mongoose.model("Movie", movieSchema);
+export default mongoose.model("Movie", movieSchema);
