@@ -30,6 +30,8 @@ const movieSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    serRating: { type: Number },
+    watchedDate: { type: Date },
   },
   {
     timestamps: true,

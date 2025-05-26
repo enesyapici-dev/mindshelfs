@@ -7,6 +7,7 @@ import { getPopulerMovies, searchMovies } from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
 import Loading from "../../components/Loading/Loading";
 import { getWatchedMovies } from "../../services/backend";
+import Moviedetails from "../../components/Moviedetails/Moviedetails";
 
 const movieData = [
   {
@@ -112,30 +113,35 @@ const Movieshelf = () => {
   };
 
   return (
-    <div className="movieshelf-cont">
-      <Searchbar
-        placeholder={"Search your movies..."}
-        onchange={handleChange}
-        value={searchQuery}
-      />
-      <ShelfFilter
-        categories={categories}
-        onCategoryChange={handleCategoryChange}
-        selected={filterQuery}
-      />
-      {loading ? (
-        <Loading />
-      ) : error ? (
-        <div>
-          <p>{error}</p>
-        </div>
-      ) : filterQuery === "Watched" ? (
-        <WatchedMovies movies={movies} />
-      ) : filterQuery === "Watch List" ? (
-        <Loading />
-      ) : (
-        <Allmovies movies={movies} />
-      )}
+    <div className="movie-page">
+      <div className="movieshelf-cont">
+        <Searchbar
+          placeholder={"Search your movies..."}
+          onchange={handleChange}
+          value={searchQuery}
+        />
+        <ShelfFilter
+          categories={categories}
+          onCategoryChange={handleCategoryChange}
+          selected={filterQuery}
+        />
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <div>
+            <p>{error}</p>
+          </div>
+        ) : filterQuery === "Watched" ? (
+          <WatchedMovies movies={movies} />
+        ) : filterQuery === "Watch List" ? (
+          <Loading />
+        ) : (
+          <Allmovies movies={movies} />
+        )}
+      </div>
+      <div className="movie-side-section">
+        <Moviedetails />
+      </div>
     </div>
   );
 };

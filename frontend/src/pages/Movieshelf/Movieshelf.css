@@ -8,3 +8,12 @@
   overflow: hidden;
   padding-bottom: 2rem;
 }
+.movie-page {
+  display: flex;
+}
+
+.movie-side-section {
+  position: absolute;
+  right: 0;
+  margin: 1rem;
+}

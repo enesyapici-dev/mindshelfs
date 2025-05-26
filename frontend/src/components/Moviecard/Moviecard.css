@@ -82,3 +82,7 @@
   transition: background 0.2s, box-shadow 0.2s;
   box-shadow: 0 2px 8px rgba(230, 57, 70, 0.08);
 }
+
+.movie-card-director {
+  color: var(--color-dark);
+}
