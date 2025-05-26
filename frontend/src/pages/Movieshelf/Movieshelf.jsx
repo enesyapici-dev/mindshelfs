@@ -6,6 +6,7 @@ import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
 import { getPopulerMovies, searchMovies } from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
 import Loading from "../../components/Loading/Loading";
+import { getWatchedMovies } from "../../services/backend";
 
 const movieData = [
   {
@@ -54,9 +55,16 @@ const Movieshelf = () => {
   useEffect(() => {
     setLoading(true);
     if (filterQuery === "Watched") {
-      setAllMovies(movieData);
-      setMovies(movieData);
-      setLoading(false);
+      getWatchedMovies()
+        .then((watchedMovies) => {
+          setAllMovies(watchedMovies);
+          setMovies(watchedMovies);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError("Failed to load movies...");
+        })
+        .finally(() => setLoading(false));
     } else if (filterQuery === "All Movies") {
       getPopulerMovies()
         .then((popularMovies) => {

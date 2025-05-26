@@ -9,7 +9,7 @@ const Moviecard = ({ movie, userStats, cardType }) => {
 
   const poster = isAllMovie
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : movie.url || "";
+    : movie.poster_path || "";
   const year = movie.release_date
     ? movie.release_date.toString().slice(0, 4)
     : "";
@@ -17,7 +17,7 @@ const Moviecard = ({ movie, userStats, cardType }) => {
     ? movie.vote_average
       ? Number(movie.vote_average).toFixed(1)
       : ""
-    : movie.rating;
+    : movie.vote_average;
   const director = isAllMovie ? "" : movie.director;
   const duration = isAllMovie ? "" : movie.duration;
 
