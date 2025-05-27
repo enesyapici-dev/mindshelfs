@@ -11,16 +11,8 @@ const Navbar = () => {
             Mindshelfs
           </Link>
         </h1>
-        <div className="navbar-links">
-          <Link to="/" className="nav-link">
-            Home
-          </Link>
-          <Link to="/movieshelf" className="nav-link">
-            Movieshelfs
-          </Link>
-          <Link to="/bookshelfs" className="nav-link">
-            Bookhelfs
-          </Link>
+        <div className="movie-details-button">
+          <Link className="movie-details-button">Login</Link>
         </div>
       </div>
     </nav>

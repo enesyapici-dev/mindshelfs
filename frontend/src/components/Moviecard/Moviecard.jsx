@@ -55,9 +55,9 @@ const Moviecard = ({ movie, userStats, cardType, onToggle }) => {
             </>
           ) : (
             <>
-              <button className="movie-card-button">
+              <p className="movie-card-button">
                 <FaRegEye onClick={onToggle} />
-              </button>
+              </p>
             </>
           )}
         </div>
