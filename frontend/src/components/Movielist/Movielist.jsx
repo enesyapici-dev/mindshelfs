@@ -2,7 +2,7 @@ import React from "react";
 import Moviecard from "../Moviecard/Moviecard";
 import "./Movielist.css";
 
-const Movielist = ({ movies, cardType }) => {
+const Movielist = ({ movies, cardType, onToggle }) => {
   return (
     <div className="movie-list">
       {movies.map((movie) => (
@@ -11,6 +11,7 @@ const Movielist = ({ movies, cardType }) => {
             movie={movie}
             userStats={movie.userStats}
             cardType={cardType}
+            onToggle={onToggle}
           />
         </div>
       ))}

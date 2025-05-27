@@ -39,6 +39,7 @@
 .arrow-icon {
   transform: rotateZ(0deg);
   transition: transform 0.3s;
+  color: var(--color-red);
 }
 .menu-content {
   width: 80%;

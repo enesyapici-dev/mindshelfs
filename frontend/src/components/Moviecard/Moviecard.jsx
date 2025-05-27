@@ -1,7 +1,8 @@
 import React from "react";
 import "./Moviecard.css";
+import { FaRegEye } from "react-icons/fa";
 
-const Moviecard = ({ movie, userStats, cardType }) => {
+const Moviecard = ({ movie, userStats, cardType, onToggle }) => {
   const isAllMovie = cardType === "allmoviecard";
   const isWatched = cardType === "watched";
 
@@ -49,16 +50,14 @@ const Moviecard = ({ movie, userStats, cardType }) => {
           {userStats ? (
             <>
               <span className="movie-card-user-rating">
-                Your Rating: <span>★</span> {userStats.rating}/10
-              </span>
-              <span className="movie-card-watched-date">
-                {userStats.watchedDate}
+                <LuEyeClosed onClick={onToggle} />
               </span>
             </>
           ) : (
             <>
-              <button className="movie-card-button">Mark as Watched</button>
-              <button className="movie-card-button">Add to Watchlist</button>
+              <button className="movie-card-button">
+                <FaRegEye onClick={onToggle} />
+              </button>
             </>
           )}
         </div>

@@ -52,6 +52,9 @@ const Movieshelf = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDetailsActive, setIsDetailsActive] = useState(false);
+
+  const handleToggle = () => setIsDetailsActive((prev) => !prev);
 
   useEffect(() => {
     setLoading(true);
@@ -136,12 +139,16 @@ const Movieshelf = () => {
         ) : filterQuery === "Watch List" ? (
           <Loading />
         ) : (
-          <Allmovies movies={movies} />
+          <Allmovies movies={movies} onToggle={handleToggle} />
         )}
       </div>
-      <div className="movie-side-section">
-        <Moviedetails />
-      </div>
+      {isDetailsActive ? (
+        <div className="movie-side-section">
+          <Moviedetails />
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
