@@ -53,6 +53,7 @@ const Movieshelf = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isDetailsActive, setIsDetailsActive] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const handleToggle = () => setIsDetailsActive((prev) => !prev);
 
@@ -128,18 +129,23 @@ const Movieshelf = () => {
           onCategoryChange={handleCategoryChange}
           selected={filterQuery}
         />
-        {loading ? (
+        {selectedMovie ? (
+          <Moviedetails
+            movie={selectedMovie}
+            onBack={() => setSelectedMovie(null)}
+          />
+        ) : loading ? (
           <Loading />
         ) : error ? (
           <div>
             <p>{error}</p>
           </div>
         ) : filterQuery === "Watched" ? (
-          <WatchedMovies movies={movies} />
+          <WatchedMovies movies={movies} onMovieClick={setSelectedMovie} />
         ) : filterQuery === "Watch List" ? (
           <Loading />
         ) : (
-          <Allmovies movies={movies} onToggle={handleToggle} />
+          <Allmovies movies={movies} onMovieClick={setSelectedMovie} />
         )}
       </div>
       {isDetailsActive ? (

@@ -1,22 +1,30 @@
 import React from "react";
 import "./Moviedetails.css";
-const Moviedetails = ({ userStats }) => {
+
+const Moviedetails = ({ movie, userStats, onBack }) => {
+  if (!movie) return null;
+  const { title, director, duration, release_date, vote_average, poster_path } =
+    movie;
+
   return (
     <div className="movie-details-cont">
+      <button className="movie-details-back-btn" onClick={onBack}>
+        ← Back
+      </button>
       <div className="movie-details-global">
         <img
           className="movie-details-poster"
-          src="https://m.media-amazon.com/images/I/91kFYg4fX3L._AC_SY679_.jpg"
-          alt="..."
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={title}
         />
         <div className="movie-head-details">
-          <h2>Interstaller</h2>
-          <h3>Chris Nolan</h3>
-          <p>163 min</p>
-          <p>2014</p>
+          <h2>{title}</h2>
+          <h3>{director}</h3>
+          <p>{duration} min</p>
+          <p>{release_date}</p>
           <p className="movie-card-rating details-rating">
             <span>★ </span>
-            8.6
+            {vote_average}
           </p>
         </div>
       </div>
