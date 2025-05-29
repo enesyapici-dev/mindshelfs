@@ -1,5 +1,7 @@
 import React from "react";
 import "./Moviecard.css";
+import { IoMdMenu } from "react-icons/io";
+import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 
 const Moviecard = ({ movie, userStats, cardType, onClick }) => {
   const isAllMovie = cardType === "allmoviecard";
@@ -13,16 +15,13 @@ const Moviecard = ({ movie, userStats, cardType, onClick }) => {
   const year = movie.release_date
     ? movie.release_date.toString().slice(0, 4)
     : "";
-  const rating = isAllMovie
-    ? movie.vote_average
-      ? Number(movie.vote_average).toFixed(1)
-      : ""
-    : movie.vote_average;
+  const rating = Number(movie.vote_average).toFixed(1);
+
   const director = isAllMovie ? "" : movie.director;
   const duration = isAllMovie ? "" : movie.duration;
 
   return (
-    <div className="movie-card" onClick={onClick}>
+    <div className="movie-card">
       <div className="movie-card-media">
         <img className="movie-card-poster" src={poster} alt={title} />
       </div>
@@ -48,17 +47,15 @@ const Moviecard = ({ movie, userStats, cardType, onClick }) => {
         <div className="movie-card-user-stats-buttons">
           {userStats ? (
             <>
-              <span className="movie-card-user-rating">
-                Your Rating: <span>★</span> {userStats.rating}/10
-              </span>
-              <span className="movie-card-watched-date">
-                {userStats.watchedDate}
-              </span>
+              <button className="movie-card-button" onClick={onClick}>
+                <TfiLayoutMenuSeparated />
+              </button>
             </>
           ) : (
             <>
-              <button className="movie-card-button">Mark as Watched</button>
-              <button className="movie-card-button">Add to Watchlist</button>
+              <button className="movie-card-button" onClick={onClick}>
+                <TfiLayoutMenuSeparated />
+              </button>
             </>
           )}
         </div>

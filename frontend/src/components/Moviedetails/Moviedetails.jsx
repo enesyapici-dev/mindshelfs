@@ -1,11 +1,20 @@
 import React from "react";
 import "./Moviedetails.css";
+import Loading from "../Loading/Loading";
 
-const Moviedetails = ({ movie, userStats, onBack }) => {
+const Moviedetails = ({ movie, onBack, loading }) => {
+  if (loading) return <Loading />;
   if (!movie) return null;
-  const { title, director, duration, release_date, vote_average, poster_path } =
+  const { title, release_date, vote_average, poster_path, runtime, credits } =
     movie;
-
+  const director = credits?.crew?.find(
+    (person) => person.job === "Director"
+  )?.name;
+  const actors = credits?.cast
+    ?.slice(0, 5)
+    .map((actor) => actor.name)
+    .join(", ");
+  const rating = Number(movie.vote_average).toFixed(1);
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -20,16 +29,17 @@ const Moviedetails = ({ movie, userStats, onBack }) => {
         <div className="movie-head-details">
           <h2>{title}</h2>
           <h3>{director}</h3>
-          <p>{duration} min</p>
+          <p>{runtime} min</p>
           <p>{release_date}</p>
+          <p>{actors}</p>
           <p className="movie-card-rating details-rating">
             <span>★ </span>
-            {vote_average}
+            {rating}
           </p>
         </div>
       </div>
       <div className="movie-details-user">
-        {userStats ? (
+        {movie.userStats ? (
           <>
             <span className="movie-card-user-rating">
               Your Rating: <span>★</span> {userStats.rating}/10

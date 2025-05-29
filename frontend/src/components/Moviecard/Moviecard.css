@@ -50,8 +50,9 @@
   margin-bottom: 0.5rem;
 }
 
-.movie-card-rating {
+.movie-card .movie-card-rating {
   font-size: 1.5rem;
+  color: var(--color-dark);
   margin: 0;
 }
 .movie-card-rating span {

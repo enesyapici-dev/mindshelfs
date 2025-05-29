@@ -3,7 +3,11 @@ import WatchedMovies from "../../components/Watchedmovies/WatchedMovies";
 import "./Movieshelf.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
-import { getPopulerMovies, searchMovies } from "../../services/api";
+import {
+  getMovieDetails,
+  getPopulerMovies,
+  searchMovies,
+} from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
 import Loading from "../../components/Loading/Loading";
 import { getWatchedMovies } from "../../services/backend";
@@ -52,10 +56,19 @@ const Movieshelf = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isDetailsActive, setIsDetailsActive] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState(null);
 
-  const handleToggle = () => setIsDetailsActive((prev) => !prev);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [movieDetails, setMovieDetails] = useState(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!selectedMovieId) return;
+    setDetailsLoading(true);
+    getMovieDetails(selectedMovieId)
+      .then((details) => setMovieDetails(details))
+      .catch(() => setMovieDetails(null))
+      .finally(() => setDetailsLoading(false));
+  }, [selectedMovieId]);
 
   useEffect(() => {
     setLoading(true);
@@ -129,10 +142,14 @@ const Movieshelf = () => {
           onCategoryChange={handleCategoryChange}
           selected={filterQuery}
         />
-        {selectedMovie ? (
+        {selectedMovieId ? (
           <Moviedetails
-            movie={selectedMovie}
-            onBack={() => setSelectedMovie(null)}
+            movie={movieDetails}
+            loading={detailsLoading}
+            onBack={() => {
+              setSelectedMovieId(null);
+              setMovieDetails(null);
+            }}
           />
         ) : loading ? (
           <Loading />
@@ -141,20 +158,19 @@ const Movieshelf = () => {
             <p>{error}</p>
           </div>
         ) : filterQuery === "Watched" ? (
-          <WatchedMovies movies={movies} onMovieClick={setSelectedMovie} />
+          <WatchedMovies
+            movies={movies}
+            onMovieClick={(movieId) => setSelectedMovieId(movieId)}
+          />
         ) : filterQuery === "Watch List" ? (
           <Loading />
         ) : (
-          <Allmovies movies={movies} onMovieClick={setSelectedMovie} />
+          <Allmovies
+            movies={movies}
+            onMovieClick={(movieId) => setSelectedMovieId(movieId)}
+          />
         )}
       </div>
-      {isDetailsActive ? (
-        <div className="movie-side-section">
-          <Moviedetails />
-        </div>
-      ) : (
-        <div></div>
-      )}
     </div>
   );
 };

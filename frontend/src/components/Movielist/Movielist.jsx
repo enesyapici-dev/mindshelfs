@@ -6,12 +6,12 @@ const Movielist = ({ movies, cardType, onMovieClick }) => {
   return (
     <div className="movie-list">
       {movies.map((movie) => (
-        <div key={movie.title}>
+        <div key={movie.id}>
           <Moviecard
             movie={movie}
             userStats={movie.userStats}
             cardType={cardType}
-            onClick={() => onMovieClick(movie)}
+            onClick={() => onMovieClick(movie.id)}
           />
         </div>
       ))}
