@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="navbar-content">
         <h1 className="navbar-brand">
           <Link to="/" className="nav-brand">
-            Mindshelfs
+            Mindshelves
           </Link>
         </h1>
         <div className="movie-details-button">

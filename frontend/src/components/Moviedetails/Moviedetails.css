@@ -1,25 +1,29 @@
 .movie-details-cont {
-  width: 320px;
-  max-width: 100%;
-  background: #fff;
-  border: 2px solid var(--color-dark);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  margin: 1.5rem auto;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 345px);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark) transparent;
+  border: 2px solid var(--color-dark);
+  border-radius: 5px;
+  box-sizing: border-box;
 }
 
 .movie-details-back-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
   background: none;
   border: none;
   color: var(--color-dark);
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
-  margin: 1rem 0 0 1rem;
+  margin: 1rem;
   align-self: flex-start;
   transition: color 0.2s;
 }
@@ -33,20 +37,20 @@
   border-bottom: 2px solid var(--color-dark);
   padding: 1.2rem 1.2rem 0.5rem 1.2rem;
   gap: 1.2rem;
-  background: #f9f9f9;
 }
 
 .movie-details-poster {
-  width: 120px;
-  height: 180px;
+  width: 10vw;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background: #eee;
   flex-shrink: 0;
 }
 
 .movie-head-details {
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;

@@ -1,6 +1,7 @@
 import React from "react";
 import "./Moviedetails.css";
 import Loading from "../Loading/Loading";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Moviedetails = ({ movie, onBack, loading }) => {
   if (loading) return <Loading />;
@@ -14,11 +15,18 @@ const Moviedetails = ({ movie, onBack, loading }) => {
     ?.slice(0, 5)
     .map((actor) => actor.name)
     .join(", ");
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const [year, month, day] = dateStr.split("-");
+    return `${day}.${month}.${year}`;
+  };
+
   const rating = Number(movie.vote_average).toFixed(1);
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
-        ← Back
+        <IoIosArrowBack />
       </button>
       <div className="movie-details-global">
         <img
@@ -30,7 +38,7 @@ const Moviedetails = ({ movie, onBack, loading }) => {
           <h2>{title}</h2>
           <h3>{director}</h3>
           <p>{runtime} min</p>
-          <p>{release_date}</p>
+          <p>{formatDate(release_date)}</p>
           <p>{actors}</p>
           <p className="movie-card-rating details-rating">
             <span>★ </span>
