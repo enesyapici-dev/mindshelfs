@@ -20,12 +20,13 @@
   background: none;
   border: none;
   color: var(--color-dark);
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
   cursor: pointer;
   margin: 1rem;
   align-self: flex-start;
   transition: color 0.2s;
+  z-index: 10;
 }
 .movie-details-back-btn:hover {
   color: var(--color-red);
@@ -57,6 +58,7 @@
   flex-direction: column;
   gap: 0.5rem;
   justify-content: flex-start;
+  height: 100%;
 }
 
 .movie-card-title,
@@ -75,11 +77,11 @@
 }
 
 .details-rating {
-  top: 0;
+  bottom: 0;
   right: 0;
   padding: 1rem;
   position: absolute;
-  font-size: 1.2rem !important;
+  font-size: 1.8rem !important;
   color: var(--color-red);
   font-weight: 600;
   margin: 0.2rem 0 0 0;
@@ -130,4 +132,64 @@
 .movie-card-watched-date {
   color: #888;
   font-size: 0.95rem;
+}
+.movie-details-user {
+  position: relative;
+  background-color: var(--color-light-gray);
+  height: 100%;
+}
+.movie-details-user-cont {
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.movie-buttons-cont {
+  display: flex;
+  gap: 1rem;
+}
+.warning-toast {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--color-light-gray);
+  color: var(--color-red);
+  font-size: 1.2rem;
+  font-weight: light;
+  padding: 0.7rem 0.8rem;
+  margin: 1rem;
+  border-radius: 5px;
+  animation: normal;
+  border: 2px solid var(--color-red);
+  animation: toast-bar-dissapier 0.1s linear forwards;
+  animation-delay: 2s;
+}
+.warning-toast::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0;
+  background: var(--color-red);
+  animation: toast-bar-grow 2s linear forwards;
+}
+
+@keyframes toast-bar-grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes toast-bar-dissapier {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0%;
+  }
 }

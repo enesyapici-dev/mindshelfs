@@ -6,6 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
   const [userRating, setUserRating] = useState(0);
+  const [showWarning, setShowWarning] = useState(false);
 
   if (loading) return <Loading />;
   if (!movie) return null;
@@ -32,7 +33,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
         <FaStar
           key={i}
           size={24}
-          color={i < value ? "#ffc107" : "#e4e5e9"}
+          color={i < value ? "#ffc107" : "#393E46"}
           style={{ cursor: "pointer" }}
           onClick={() => onChange(i + 1)}
         />
@@ -56,6 +57,15 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
       },
     };
   };
+  const handleMarkAsWatched = () => {
+    if (userRating === 0) {
+      setShowWarning(true);
+      setTimeout(() => setShowWarning(false), 2100);
+      return;
+    }
+    onAddToWatchlist(createDbMovieObject(movie));
+  };
+
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -82,25 +92,40 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
       </div>
       <div className="movie-details-user">
         {movie.userStats?.isWatched ? (
-          <>
+          <div className="movie-details-user-cont">
+            <h2>User Stats</h2>
             <span className="movie-card-user-rating">
               Your Rating: <span>★</span> {movie.userStats.userRating}/10
             </span>
             <span className="movie-card-watched-date">
               {movie.userStats.watchDate}
             </span>
-          </>
+            <div className="movie-buttons-cont">
+              <button
+                className="movie-details-button"
+                onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
+              >
+                Edit
+              </button>
+              <button className="movie-details-button">Delete</button>
+            </div>
+          </div>
         ) : (
-          <>
+          <div className="movie-details-user-cont">
             <StarRating value={userRating} onChange={setUserRating} max={10} />
-            <button
-              className="movie-details-button"
-              onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
-            >
-              Mark as Watched
-            </button>
-            <button className="movie-details-button">Add to Watchlist</button>
-          </>
+            <div className="movie-buttons-cont">
+              <button
+                className="movie-details-button"
+                onClick={handleMarkAsWatched}
+              >
+                Mark as Watched
+              </button>
+              <button className="movie-details-button">Add to Watchlist</button>
+            </div>
+            {showWarning && (
+              <span className="warning-toast">Please rate the movie!</span>
+            )}
+          </div>
         )}
       </div>
     </div>
