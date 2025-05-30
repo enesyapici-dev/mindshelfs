@@ -35,14 +35,15 @@ const Moviedetails = ({ movie, onBack, loading }) => {
           alt={title}
         />
         <div className="movie-head-details">
-          <h2>{title}</h2>
-          <h3>{director}</h3>
-          <p>{runtime} min</p>
-          <p>{formatDate(release_date)}</p>
-          <p>{actors}</p>
+          <h2 className="movie-details-title">{title}</h2>
+          <h3 className="movie-details-title">{director}</h3>
+          <p className="movie-details-title">{runtime} min</p>
+          <p className="movie-details-title">{formatDate(release_date)}</p>
+          <p className="movie-details-title">{actors}</p>
           <p className="movie-card-rating details-rating">
             <span>★ </span>
             {rating}
+            <span>/10 </span>
           </p>
         </div>
       </div>

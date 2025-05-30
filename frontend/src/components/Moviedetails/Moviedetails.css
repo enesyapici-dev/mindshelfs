@@ -50,6 +50,7 @@
 }
 
 .movie-head-details {
+  position: relative;
   padding: 1rem 0;
   flex: 1;
   display: flex;
@@ -73,14 +74,19 @@
   margin: 0 0 0.2rem 0;
 }
 
-.movie-card-rating,
 .details-rating {
-  font-size: 1.1rem;
+  top: 0;
+  right: 0;
+  padding: 1rem;
+  position: absolute;
+  font-size: 1.2rem !important;
   color: var(--color-red);
   font-weight: 600;
   margin: 0.2rem 0 0 0;
 }
-
+.details-rating span:last-child {
+  color: var(--color-dark);
+}
 .movie-head-details p {
   margin: 0.1rem 0;
   color: #444;
