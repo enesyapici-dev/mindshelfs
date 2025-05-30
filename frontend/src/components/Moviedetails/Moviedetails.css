@@ -192,3 +192,16 @@
     opacity: 0%;
   }
 }
+.delete-q {
+  font-size: 1.3rem;
+}
+.delete-no {
+  color: var(--color-red);
+  background-color: transparent;
+  border: 2px solid var(--color-red);
+  font-weight: bold;
+}
+.delete-no:hover {
+  color: var(--color-light-gray);
+  background-color: var(--color-red);
+}

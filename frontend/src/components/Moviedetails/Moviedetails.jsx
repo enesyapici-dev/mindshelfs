@@ -102,31 +102,58 @@ const Moviedetails = ({
       </div>
       <div className="movie-details-user">
         {movie.userStats?.isWatched ? (
-          <div className="movie-details-user-cont">
-            <h2>User Stats</h2>
-            <span className="movie-card-user-rating">
-              Your Rating: <span>★</span> {movie.userStats.userRating}/10
-            </span>
-            <span className="movie-card-watched-date">
-              {movie.userStats.watchDate}
-            </span>
-            <div className="movie-buttons-cont">
-              <button
-                className="movie-details-button"
-                onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
-              >
-                Edit
-              </button>
-              <button
-                className="movie-details-button"
-                onClick={() => {
-                  handleDeleteWatched(movie._id);
-                }}
-              >
-                Delete
-              </button>
+          showWarning ? (
+            <div className="movie-details-user-cont">
+              <span className="delete-q">
+                Do You Want to Remove {movie.title} From Watched Movies?
+              </span>
+              <div className="movie-buttons-cont">
+                <button
+                  className="movie-details-button delete-no"
+                  onClick={() => {
+                    setShowWarning(false);
+                  }}
+                >
+                  No
+                </button>
+                <button
+                  className="movie-details-button delete-yes "
+                  onClick={() => {
+                    handleDeleteWatched(movie._id);
+                  }}
+                >
+                  Yes
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="movie-details-user-cont">
+              <h2>User Stats</h2>
+              <span className="movie-card-user-rating">
+                Your Rating: <span>★</span> {movie.userStats.userRating}/10
+              </span>
+              <span className="movie-card-watched-date">
+                {movie.userStats.watchDate}
+              </span>
+              <div className="movie-buttons-cont">
+                <button
+                  className="movie-details-button"
+                  onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
+                >
+                  Edit
+                </button>
+                <button
+                  className="movie-details-button"
+                  onClick={() => {
+                    // handleDeleteWatched(movie._id);
+                    setShowWarning(true);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          )
         ) : (
           <div className="movie-details-user-cont">
             <StarRating value={userRating} onChange={setUserRating} max={10} />
