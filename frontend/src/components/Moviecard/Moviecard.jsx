@@ -3,7 +3,7 @@ import "./Moviecard.css";
 import { IoMdMenu } from "react-icons/io";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 
-const Moviecard = ({ movie, userStats, cardType, onClick }) => {
+const Moviecard = ({ movie, cardType, onClick }) => {
   const isAllMovie = cardType === "allmoviecard";
   const isWatched = cardType === "watched";
 

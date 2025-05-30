@@ -97,6 +97,8 @@ const Movieshelf = () => {
 
   const handleCategoryChange = (category) => {
     setFilterQuery(category);
+    setSelectedMovieId(null);
+    setMovieDetails(null);
   };
 
   const handleAddToWatchlist = async (movie) => {
