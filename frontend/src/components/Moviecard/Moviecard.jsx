@@ -44,7 +44,7 @@ const Moviecard = ({ movie, cardType, onClick }) => {
           </p>
         </div>
         <div className="movie-card-user-stats-buttons">
-          {movie.userRating ? (
+          {movie.userStats ? (
             <>
               <button className="movie-card-button" onClick={onClick}>
                 izlendi
