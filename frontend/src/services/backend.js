@@ -13,3 +13,10 @@ export const addMovieToDB = async (movie) => {
   const data = await response.json();
   return data;
 };
+export const deleteMovieFromDB = async (id) => {
+  const response = await fetch(`http://localhost:5555/movies/${id}`, {
+    method: "DELETE",
+  });
+  const data = await response.json();
+  return data;
+};

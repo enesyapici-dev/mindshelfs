@@ -4,7 +4,13 @@ import Loading from "../Loading/Loading";
 import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 
-const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
+const Moviedetails = ({
+  movie,
+  onBack,
+  loading,
+  handleAddToWatched,
+  handleDeleteWatched,
+}) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
 
@@ -12,6 +18,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
   if (!movie) return null;
   const { title, release_date, vote_average, poster_path, runtime, credits } =
     movie;
+
   const director = credits?.crew?.find(
     (person) => person.job === "Director"
   )?.name;
@@ -66,7 +73,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
       setTimeout(() => setShowWarning(false), 2100);
       return;
     }
-    onAddToWatchlist(createDbMovieObject(movie));
+    handleAddToWatched(createDbMovieObject(movie));
   };
 
   return (
@@ -110,7 +117,14 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
               >
                 Edit
               </button>
-              <button className="movie-details-button">Delete</button>
+              <button
+                className="movie-details-button"
+                onClick={() => {
+                  handleDeleteWatched(movie._id);
+                }}
+              >
+                Delete
+              </button>
             </div>
           </div>
         ) : (

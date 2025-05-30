@@ -30,35 +30,36 @@ const Moviecard = ({ movie, cardType, onClick }) => {
         <div className="movie-card-details">
           <h2 className="movie-card-title">{title}</h2>
           <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
-          <p className="movie-card-meta">
-            <span className="movie-card-year">{year}</span>
-            {isWatched && (
-              <>
-                <span className="movie-card-separator"> • </span>
-                <span className="movie-card-duration">{duration} min</span>
-              </>
-            )}
-          </p>
-          <p className="movie-card-rating">
-            <span>★</span>
-            {rating}
-          </p>
+          <div className={movie.userStats ? "" : "movie-card-row"}>
+            <p className="movie-card-meta">
+              <span className="movie-card-year">{year}</span>
+              {isWatched && (
+                <>
+                  <span className="movie-card-separator"> • </span>
+                  <span className="movie-card-duration">{duration} min</span>
+                </>
+              )}
+            </p>
+            <p className="movie-card-rating">
+              <span>★</span>
+              {rating}
+            </p>
+          </div>
         </div>
-        <div className="movie-card-user-stats-buttons">
-          {movie.userStats ? (
-            <div className="watched-card-details">
-              <span className="watched-card-user-rating">
-                Your Rating: <span className="star">★</span>
-                {movie.userStats.userRating}/10
-              </span>
-              <span className="watched-card-date">
-                {movie.userStats.watchDate}
-              </span>
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
+
+        {movie.userStats ? (
+          <div className="watched-card-details">
+            <span className="watched-card-user-rating">
+              Your Rating: <span className="star">★</span>
+              {movie.userStats.userRating}/10
+            </span>
+            <span className="watched-card-date">
+              {movie.userStats.watchDate}
+            </span>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

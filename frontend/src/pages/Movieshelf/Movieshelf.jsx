@@ -10,7 +10,11 @@ import {
 } from "../../services/api";
 import Allmovies from "../../components/Allmovies/Allmovies";
 import Loading from "../../components/Loading/Loading";
-import { getWatchedMovies, addMovieToDB } from "../../services/backend";
+import {
+  getWatchedMovies,
+  addMovieToDB,
+  deleteMovieFromDB,
+} from "../../services/backend";
 import Moviedetails from "../../components/Moviedetails/Moviedetails";
 
 const categories = [
@@ -45,6 +49,7 @@ const Movieshelf = () => {
         );
         if (dbMovie) {
           details.userStats = dbMovie.userStats;
+          details._id = dbMovie._id;
         }
         setMovieDetails(details);
       })
@@ -113,9 +118,16 @@ const Movieshelf = () => {
     setMovieDetails(null);
   };
 
-  const handleAddToWatchlist = async (movie) => {
+  const handleAddToWatched = async (movie) => {
     await addMovieToDB(movie);
     setWatchedMovies((prev) => [...prev, movie]);
+  };
+  const handleDeleteWatched = async (id) => {
+    await deleteMovieFromDB(id);
+    setWatchedMovies((prev) => prev.filter((movie) => movie._id !== id));
+    setMovies((prev) => prev.filter((movie) => movie._id !== id));
+    setMovieDetails(null);
+    setSelectedMovieId(null);
   };
 
   return (
@@ -139,7 +151,8 @@ const Movieshelf = () => {
               setSelectedMovieId(null);
               setMovieDetails(null);
             }}
-            onAddToWatchlist={handleAddToWatchlist}
+            handleAddToWatched={handleAddToWatched}
+            handleDeleteWatched={handleDeleteWatched}
           />
         ) : loading ? (
           <Loading />

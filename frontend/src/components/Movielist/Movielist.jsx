@@ -6,7 +6,7 @@ const Movielist = ({ movies, cardType, onMovieClick }) => {
   return (
     <div className="movie-list">
       {movies.map((movie) => (
-        <div key={movie.id}>
+        <div key={movie._id || movie.tmdb_id || movie.id}>
           <Moviecard
             movie={movie}
             userStats={movie.userStats}
