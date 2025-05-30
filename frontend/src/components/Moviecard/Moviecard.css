@@ -5,6 +5,10 @@
   box-sizing: border-box;
   border-bottom: 1px solid var(--color-dark);
   border-right: 2px solid var(--color-dark);
+  cursor: pointer;
+}
+.movie-card:hover {
+  background-color: #fff;
 }
 .movie-card-media {
   width: 20vw;
@@ -35,19 +39,23 @@
   justify-content: center;
 }
 .movie-card-title {
-  margin: 0;
   font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  line-height: 1rem;
 }
 .movie-card-director {
   margin: 0;
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.3);
-  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  font-weight: 400;
 }
 .movie-card-meta {
   margin: 0;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+
+  display: flex;
+  align-items: center;
 }
 
 .movie-card .movie-card-rating {
@@ -70,21 +78,35 @@
 }
 
 .movie-card-button {
-  right: 0;
-  top: 0;
   background: none;
   border: none;
   color: var(--color-dark);
   font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
-  margin: 1rem;
+  margin: 0rem;
   align-self: flex-start;
   transition: color 0.2s;
+  line-height: 1rem;
 }
 .movie-card-button:hover {
   color: var(--color-red);
 }
 .movie-card-director {
   color: var(--color-dark);
+}
+.watched-card-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+}
+.watched-card-user-rating {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.watched-card-user-rating .star {
+  color: goldenrod;
+  font-size: 1.5rem;
 }

@@ -23,7 +23,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
     const [year, month, day] = dateStr.split("-");
-    return `${day}.${month}.${year}`;
+    return `${month}.${day}.${year}`;
   };
 
   const rating = Number(movie.vote_average).toFixed(1);
@@ -41,6 +41,9 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
     </div>
   );
   const createDbMovieObject = (movie) => {
+    const today = new Date();
+    const todayStr = today.toISOString().slice(0, 10); // "2025-05-31"
+    const formattedToday = formatDate(todayStr); // "31.05.2025"
     return {
       tmdb_id: movie.id,
       title: movie.title,
@@ -53,7 +56,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
       userStats: {
         isWatched: true,
         userRating: userRating,
-        watchDate: new Date().toISOString().slice(0, 10),
+        watchDate: formattedToday,
       },
     };
   };
