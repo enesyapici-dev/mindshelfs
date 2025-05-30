@@ -3,6 +3,8 @@ import "./Moviedetails.css";
 import Loading from "../Loading/Loading";
 import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
+import { MdModeEdit } from "react-icons/md";
+import { FaTrashCan } from "react-icons/fa6";
 
 const Moviedetails = ({
   movie,
@@ -128,28 +130,30 @@ const Moviedetails = ({
             </div>
           ) : (
             <div className="movie-details-user-cont">
-              <h2>User Stats</h2>
-              <span className="movie-card-user-rating">
-                Your Rating: <span>★</span> {movie.userStats.userRating}/10
-              </span>
-              <span className="movie-card-watched-date">
-                {movie.userStats.watchDate}
-              </span>
-              <div className="movie-buttons-cont">
+              <div className="movie-details-user-stats">
+                <h2 className="user-stats-header">User Stats</h2>
+                <span className="movie-card-user-rating">
+                  Your Rating: <span>★</span>
+                  {movie.userStats.userRating}/10
+                </span>
+                <span className="movie-card-watched-date">
+                  {movie.userStats.watchDate}
+                </span>
+              </div>
+              <div className="movie-buttons-cont user-stats-buttons">
                 <button
-                  className="movie-details-button"
+                  className="movie-details-button stats-button"
                   onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
                 >
-                  Edit
+                  <MdModeEdit />
                 </button>
                 <button
-                  className="movie-details-button"
+                  className="movie-details-button stats-button"
                   onClick={() => {
-                    // handleDeleteWatched(movie._id);
                     setShowWarning(true);
                   }}
                 >
-                  Delete
+                  <FaTrashCan />
                 </button>
               </div>
             </div>

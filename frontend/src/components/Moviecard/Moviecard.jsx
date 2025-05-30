@@ -41,7 +41,7 @@ const Moviecard = ({ movie, cardType, onClick }) => {
               )}
             </p>
             <p className="movie-card-rating">
-              <span>★</span>
+              <span>★ </span>
               {rating}
             </p>
           </div>

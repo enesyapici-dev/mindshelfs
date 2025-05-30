@@ -123,14 +123,17 @@
 }
 
 .movie-card-user-rating {
-  color: var(--color-red);
-  font-weight: 600;
-  font-size: 1rem;
+  color: var(--color-dark);
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.movie-card-user-rating span {
+  font-size: 1.4rem;
 }
 
 .movie-card-watched-date {
-  color: #888;
-  font-size: 0.95rem;
+  color: var(--color-dark);
+  font-size: 1.2rem;
 }
 .movie-details-user {
   position: relative;
@@ -139,10 +142,19 @@
 }
 .movie-details-user-cont {
   display: flex;
-
-  flex-direction: column;
+  width: 100%;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
+}
+.movie-details-user-stats {
+  display: flex;
+  flex-direction: column;
+}
+.user-stats-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-dark);
 }
 .movie-buttons-cont {
   display: flex;
@@ -204,4 +216,24 @@
 .delete-no:hover {
   color: var(--color-light-gray);
   background-color: var(--color-red);
+}
+.user-stats-buttons {
+  flex-direction: column;
+}
+.stats-button {
+  border: 2px solid var(--color-dark);
+  background-color: transparent;
+  color: var(--color-dark);
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.stats-button:last-child {
+  border: 2px solid var(--color-red);
+  background-color: transparent;
+  color: var(--color-red);
+}
+.stats-button:last-child:hover {
+  border: 2px solid var(--color-light-gray);
+  background-color: var(--color-red);
+  color: var(--color-light-gray);
 }
