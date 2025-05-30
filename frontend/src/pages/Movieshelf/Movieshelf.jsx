@@ -41,15 +41,10 @@ const Movieshelf = () => {
     getMovieDetails(selectedMovieId)
       .then((details) => {
         const dbMovie = watchedMovies.find(
-          (m) => String(m.tmdb_id || m.id) === String(selectedMovieId)
+          (m) => String(m.tmdb_id) === String(details.id)
         );
-
         if (dbMovie) {
-          details.userStats = {
-            isWatched: dbMovie.isWatched,
-            rating: dbMovie.userRating,
-            watchedDate: dbMovie.watchDate,
-          };
+          details.userStats = dbMovie.userStats;
         }
         setMovieDetails(details);
       })

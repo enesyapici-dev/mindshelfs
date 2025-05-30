@@ -3,6 +3,10 @@ import userStatsSchema from "./userStatsModel.js";
 
 const movieSchema = mongoose.Schema(
   {
+    tmdb_id: {
+      type: Number,
+      required: true,
+    },
     title: {
       type: String,
       required: true,

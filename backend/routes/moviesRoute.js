@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", async (request, response) => {
   try {
     if (
+      !request.body.tmdb_id ||
       !request.body.title ||
       !request.body.poster_path ||
       !request.body.director ||
@@ -30,6 +31,7 @@ router.post("/", async (request, response) => {
       });
     }
     const newMovie = {
+      tmdb_id: request.body.tmdb_id,
       title: request.body.title,
       poster_path: request.body.poster_path,
       director: request.body.director,

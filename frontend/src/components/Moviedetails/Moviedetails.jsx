@@ -26,6 +26,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
 
   const createDbMovieObject = (movie) => {
     return {
+      tmdb_id: movie.id,
       title: movie.title,
       poster_path: movie.poster_path,
       director: director,
@@ -65,13 +66,13 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
         </div>
       </div>
       <div className="movie-details-user">
-        {movie.userStats ? (
+        {movie.userStats?.isWatched ? (
           <>
             <span className="movie-card-user-rating">
-              Your Rating: <span>★</span> {userStats.rating}/10
+              Your Rating: <span>★</span> {movie.userStats.userRating}/10
             </span>
             <span className="movie-card-watched-date">
-              {userStats.watchedDate}
+              {movie.userStats.watchDate}
             </span>
           </>
         ) : (

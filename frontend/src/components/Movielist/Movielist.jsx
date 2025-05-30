@@ -11,7 +11,7 @@ const Movielist = ({ movies, cardType, onMovieClick }) => {
             movie={movie}
             userStats={movie.userStats}
             cardType={cardType}
-            onClick={() => onMovieClick(movie.id)}
+            onClick={() => onMovieClick(movie.tmdb_id || movie.id)}
           />
         </div>
       ))}
