@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Moviedetails.css";
 import Loading from "../Loading/Loading";
+import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 
 const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
+  const [userRating, setUserRating] = useState(0);
+
   if (loading) return <Loading />;
   if (!movie) return null;
   const { title, release_date, vote_average, poster_path, runtime, credits } =
@@ -23,7 +26,19 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
   };
 
   const rating = Number(movie.vote_average).toFixed(1);
-
+  const StarRating = ({ value, onChange, max = 10 }) => (
+    <div>
+      {[...Array(max)].map((_, i) => (
+        <FaStar
+          key={i}
+          size={24}
+          color={i < value ? "#ffc107" : "#e4e5e9"}
+          style={{ cursor: "pointer" }}
+          onClick={() => onChange(i + 1)}
+        />
+      ))}
+    </div>
+  );
   const createDbMovieObject = (movie) => {
     return {
       tmdb_id: movie.id,
@@ -36,7 +51,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
       actors: actors,
       userStats: {
         isWatched: true,
-        userRating: 9,
+        userRating: userRating,
         watchDate: new Date().toISOString().slice(0, 10),
       },
     };
@@ -77,6 +92,7 @@ const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
           </>
         ) : (
           <>
+            <StarRating value={userRating} onChange={setUserRating} max={10} />
             <button
               className="movie-details-button"
               onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
