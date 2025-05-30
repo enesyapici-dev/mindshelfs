@@ -3,7 +3,7 @@ import "./Moviedetails.css";
 import Loading from "../Loading/Loading";
 import { IoIosArrowBack } from "react-icons/io";
 
-const Moviedetails = ({ movie, onBack, loading }) => {
+const Moviedetails = ({ movie, onBack, loading, onAddToWatchlist }) => {
   if (loading) return <Loading />;
   if (!movie) return null;
   const { title, release_date, vote_average, poster_path, runtime, credits } =
@@ -23,6 +23,21 @@ const Moviedetails = ({ movie, onBack, loading }) => {
   };
 
   const rating = Number(movie.vote_average).toFixed(1);
+
+  const createDbMovieObject = (movie) => {
+    return {
+      title: movie.title,
+      poster_path: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+      director: director,
+      release_date: movie.release_date,
+      vote_average: movie.vote_average,
+      duration: movie.runtime,
+      isWatched: true,
+      userRating: 9,
+      watchDate: new Date().toISOString().slice(0, 10),
+      actors: actors,
+    };
+  };
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -59,7 +74,12 @@ const Moviedetails = ({ movie, onBack, loading }) => {
           </>
         ) : (
           <>
-            <button className="movie-details-button">Mark as Watched</button>
+            <button
+              className="movie-details-button"
+              onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
+            >
+              Mark as Watched
+            </button>
             <button className="movie-details-button">Add to Watchlist</button>
           </>
         )}

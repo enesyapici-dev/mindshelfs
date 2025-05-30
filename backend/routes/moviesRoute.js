@@ -19,6 +19,14 @@ router.post("/", async (request, response) => {
         message: "Send all required fields",
       });
     }
+    if (
+      request.body.isWatched === true &&
+      (!request.body.userRating || !request.body.watchDate)
+    ) {
+      return response.status(400).send({
+        message: "Watched movies must have userRating and watchDate",
+      });
+    }
     const newMovie = {
       title: request.body.title,
       poster_path: request.body.poster_path,
@@ -26,7 +34,9 @@ router.post("/", async (request, response) => {
       release_date: request.body.release_date,
       vote_average: request.body.vote_average,
       duration: request.body.duration,
-      isWatched: request.body.isWatched,
+      isWatched: request.body.isWatched ?? false,
+      userRating: request.body.userRating,
+      watchDate: request.body.watchDate,
     };
     const movie = await Movie.create(newMovie);
     return response.status(201).send(movie);

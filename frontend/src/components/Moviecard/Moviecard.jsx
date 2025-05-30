@@ -45,10 +45,10 @@ const Moviecard = ({ movie, userStats, cardType, onClick }) => {
           </p>
         </div>
         <div className="movie-card-user-stats-buttons">
-          {userStats ? (
+          {movie.userRating ? (
             <>
               <button className="movie-card-button" onClick={onClick}>
-                <TfiLayoutMenuSeparated />
+                izlendi
               </button>
             </>
           ) : (

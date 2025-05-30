@@ -15,7 +15,7 @@ const movieSchema = mongoose.Schema(
       required: true,
     },
     release_date: {
-      type: Number,
+      type: String,
       required: true,
     },
     vote_average: {
@@ -30,8 +30,8 @@ const movieSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    serRating: { type: Number },
-    watchedDate: { type: Date },
+    userRating: { type: Number },
+    watchDate: { type: Date },
   },
   {
     timestamps: true,
