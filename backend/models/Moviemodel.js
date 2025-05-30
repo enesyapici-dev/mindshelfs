@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import userStatsSchema from "./userStatsModel.js";
 
 const movieSchema = mongoose.Schema(
   {
@@ -26,12 +27,11 @@ const movieSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    isWatched: {
-      type: Boolean,
+    actors: {
+      type: String,
       required: true,
     },
-    userRating: { type: Number },
-    watchDate: { type: Date },
+    userStats: userStatsSchema,
   },
   {
     timestamps: true,

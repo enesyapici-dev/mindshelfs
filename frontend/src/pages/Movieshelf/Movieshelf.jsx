@@ -26,19 +26,36 @@ const Movieshelf = () => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [movieDetails, setMovieDetails] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
+  const [watchedMovies, setWatchedMovies] = useState([]);
+
+  useEffect(() => {
+    getWatchedMovies().then(setWatchedMovies);
+  }, []);
 
   useEffect(() => {
     if (!selectedMovieId) return;
     setDetailsLoading(true);
     getMovieDetails(selectedMovieId)
-      .then((details) => setMovieDetails(details))
+      .then((details) => {
+        const dbMovie = watchedMovies.find(
+          (m) => String(m.tmdb_id || m.id) === String(selectedMovieId)
+        );
+
+        if (dbMovie) {
+          details.userStats = {
+            isWatched: dbMovie.isWatched,
+            rating: dbMovie.userRating,
+            watchedDate: dbMovie.watchDate,
+          };
+        }
+        setMovieDetails(details);
+      })
       .catch(() => setMovieDetails(null))
       .finally(() => setDetailsLoading(false));
-  }, [selectedMovieId]);
+  }, [selectedMovieId, watchedMovies]);
 
   useEffect(() => {
     setLoading(true);

@@ -13,15 +13,17 @@ router.post("/", async (request, response) => {
       !request.body.release_date ||
       !request.body.vote_average ||
       !request.body.duration ||
-      !request.body.isWatched
+      !request.body.actors ||
+      !request.body.userStats ||
+      typeof request.body.userStats.isWatched === "undefined"
     ) {
       return response.status(400).send({
         message: "Send all required fields",
       });
     }
     if (
-      request.body.isWatched === true &&
-      (!request.body.userRating || !request.body.watchDate)
+      request.body.userStats.isWatched === true &&
+      (!request.body.userStats.userRating || !request.body.userStats.watchDate)
     ) {
       return response.status(400).send({
         message: "Watched movies must have userRating and watchDate",
@@ -34,9 +36,12 @@ router.post("/", async (request, response) => {
       release_date: request.body.release_date,
       vote_average: request.body.vote_average,
       duration: request.body.duration,
-      isWatched: request.body.isWatched ?? false,
-      userRating: request.body.userRating,
-      watchDate: request.body.watchDate,
+      actors: request.body.actors,
+      userStats: {
+        isWatched: request.body.userStats.isWatched,
+        userRating: request.body.userStats.userRating,
+        watchDate: request.body.userStats.watchDate,
+      },
     };
     const movie = await Movie.create(newMovie);
     return response.status(201).send(movie);

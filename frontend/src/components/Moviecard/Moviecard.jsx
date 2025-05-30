@@ -9,9 +9,8 @@ const Moviecard = ({ movie, cardType, onClick }) => {
 
   const title = movie.title;
 
-  const poster = isAllMovie
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : movie.poster_path || "";
+  const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+
   const year = movie.release_date
     ? movie.release_date.toString().slice(0, 4)
     : "";
