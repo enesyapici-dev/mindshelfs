@@ -35,6 +35,14 @@ const movieSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    actors: {
+      type: String,
+      required: true,
+    },
+    isWatched: {
+      type: Boolean,
+      required: true,
+    },
     userStats: userStatsSchema,
   },
   {

@@ -15,15 +15,16 @@ router.post("/", async (request, response) => {
       !request.body.vote_average ||
       !request.body.duration ||
       !request.body.actors ||
+      !request.body.isWatched ||
       !request.body.userStats ||
-      typeof request.body.userStats.isWatched === "undefined"
+      typeof request.body.isWatched === "undefined"
     ) {
       return response.status(400).send({
         message: "Send all required fields",
       });
     }
     if (
-      request.body.userStats.isWatched === true &&
+      request.body.isWatched === true &&
       (!request.body.userStats.userRating || !request.body.userStats.watchDate)
     ) {
       return response.status(400).send({
@@ -39,8 +40,8 @@ router.post("/", async (request, response) => {
       vote_average: request.body.vote_average,
       duration: request.body.duration,
       actors: request.body.actors,
+      isWatched: request.body.isWatched,
       userStats: {
-        isWatched: request.body.userStats.isWatched,
         userRating: request.body.userStats.userRating,
         watchDate: request.body.userStats.watchDate,
       },

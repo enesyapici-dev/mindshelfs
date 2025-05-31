@@ -48,6 +48,7 @@ const Movieshelf = () => {
           (m) => String(m.tmdb_id) === String(details.id)
         );
         if (dbMovie) {
+          details.isWatched = dbMovie.isWatched;
           details.userStats = dbMovie.userStats;
           details._id = dbMovie._id;
         }

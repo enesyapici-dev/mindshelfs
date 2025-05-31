@@ -18,8 +18,15 @@ const Moviedetails = ({
 
   if (loading) return <Loading />;
   if (!movie) return null;
-  const { title, release_date, vote_average, poster_path, runtime, credits } =
-    movie;
+  const {
+    title,
+    release_date,
+    vote_average,
+    poster_path,
+    runtime,
+    credits,
+    isWatched,
+  } = movie;
 
   const director = credits?.crew?.find(
     (person) => person.job === "Director"
@@ -62,8 +69,8 @@ const Moviedetails = ({
       vote_average: movie.vote_average,
       duration: movie.runtime,
       actors: actors,
+      isWatched: true,
       userStats: {
-        isWatched: true,
         userRating: userRating,
         watchDate: formattedToday,
       },
@@ -77,7 +84,7 @@ const Moviedetails = ({
     }
     handleAddToWatched(createDbMovieObject(movie));
   };
-
+  console.log(movie);
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -103,7 +110,7 @@ const Moviedetails = ({
         </div>
       </div>
       <div className="movie-details-user">
-        {movie.userStats?.isWatched ? (
+        {movie.isWatched ? (
           showWarning ? (
             <div className="movie-details-user-cont">
               <span className="delete-q">
