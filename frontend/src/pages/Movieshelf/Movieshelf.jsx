@@ -121,6 +121,7 @@ const Movieshelf = () => {
 
   const handleAddToWatched = async (movie) => {
     await addMovieToDB(movie);
+
     setWatchedMovies((prev) => [...prev, movie]);
   };
   const handleDeleteWatched = async (id) => {
