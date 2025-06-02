@@ -4,7 +4,7 @@ import { IoMdMenu } from "react-icons/io";
 import { TfiLayoutMenuSeparated } from "react-icons/tfi";
 import { TfiMoreAlt } from "react-icons/tfi";
 
-const Moviecard = ({ movie, cardType, onClick }) => {
+const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
   const isAllMovie = cardType === "allmoviecard";
   const isWatched = cardType === "watched";
 
@@ -27,25 +27,29 @@ const Moviecard = ({ movie, cardType, onClick }) => {
       </div>
 
       <div className="movie-card-content">
-        <div className="movie-card-details">
-          <h2 className="movie-card-title">{title}</h2>
-          <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
-          <div className={movie.userStats ? "" : "movie-card-row"}>
-            <p className="movie-card-meta">
-              <span className="movie-card-year">{year}</span>
-              {isWatched && (
-                <>
-                  <span className="movie-card-separator"> • </span>
-                  <span className="movie-card-duration">{duration} min</span>
-                </>
-              )}
-            </p>
-            <p className="movie-card-rating">
-              <span>★ </span>
-              {rating}
-            </p>
+        {!homeCard ? (
+          <div className="movie-card-details">
+            <h2 className="movie-card-title">{title}</h2>
+            <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
+            <div className={movie.userStats ? "" : "movie-card-row"}>
+              <p className="movie-card-meta">
+                <span className="movie-card-year">{year}</span>
+                {isWatched && (
+                  <>
+                    <span className="movie-card-separator"> • </span>
+                    <span className="movie-card-duration">{duration} min</span>
+                  </>
+                )}
+              </p>
+              <p className="movie-card-rating">
+                <span>★ </span>
+                {rating}
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          ""
+        )}
 
         {movie.userStats ? (
           <div className="watched-card-details">
