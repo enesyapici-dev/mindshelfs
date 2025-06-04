@@ -14,6 +14,7 @@ import {
   getWatchedMovies,
   addMovieToDB,
   deleteMovieFromDB,
+  updateMovieInDB,
 } from "../../services/backend";
 import Moviedetails from "../../components/Moviedetails/Moviedetails";
 
@@ -131,7 +132,14 @@ const Movieshelf = () => {
     setMovieDetails(null);
     setSelectedMovieId(null);
   };
+  const handleUpdateWatched = async (updatedMovie) => {
+    const updated = await updateMovieInDB(updatedMovie);
 
+    setWatchedMovies((prev) =>
+      prev.map((movie) => (movie._id === updated._id ? updated : movie))
+    );
+    setMovieDetails(updated);
+  };
   return (
     <div className="movie-page">
       <div className="movieshelf-cont">
@@ -155,6 +163,7 @@ const Movieshelf = () => {
             }}
             handleAddToWatched={handleAddToWatched}
             handleDeleteWatched={handleDeleteWatched}
+            handleUpdateWatched={handleUpdateWatched}
           />
         ) : loading ? (
           <Loading />

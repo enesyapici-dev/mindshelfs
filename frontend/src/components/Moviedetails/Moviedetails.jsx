@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
 import { FaTrashCan } from "react-icons/fa6";
+import { FaPlus } from "react-icons/fa";
 
 const Moviedetails = ({
   movie,
@@ -12,6 +13,7 @@ const Moviedetails = ({
   loading,
   handleAddToWatched,
   handleDeleteWatched,
+  handleUpdateWatched,
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
@@ -90,7 +92,28 @@ const Moviedetails = ({
     }
     handleAddToWatched(createDbMovieObject(movie));
   };
-  console.log(movie);
+
+  const handleAddWatchDate = () => {
+    const today = new Date();
+    const formattedToday = `${String(today.getMonth() + 1).padStart(
+      2,
+      "0"
+    )}.${String(today.getDate()).padStart(2, "0")}.${today.getFullYear()}`;
+    const prevDates = Array.isArray(movie.userStats.watchDate)
+      ? movie.userStats.watchDate
+      : movie.userStats.watchDate
+      ? [movie.userStats.watchDate]
+      : [];
+    if (prevDates.includes(formattedToday)) return;
+    const updatedMovie = {
+      ...movie,
+      userStats: {
+        ...movie.userStats,
+        watchDate: [...prevDates, formattedToday],
+      },
+    };
+    handleUpdateWatched(updatedMovie);
+  };
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -116,6 +139,7 @@ const Moviedetails = ({
         </div>
       </div>
       <div className="movie-details-user">
+        {/* /////////////// */}
         {editMode ? (
           <div className="movie-details-user-cont">
             <div className="movie-details-user-stats">
@@ -196,6 +220,12 @@ const Moviedetails = ({
                 </span>
               </div>
               <div className="movie-buttons-cont user-stats-buttons">
+                <button
+                  className="movie-details-button stats-button"
+                  onClick={handleAddWatchDate}
+                >
+                  <FaPlus />
+                </button>
                 <button
                   className="movie-details-button stats-button"
                   onClick={() => setEditMode(true)}

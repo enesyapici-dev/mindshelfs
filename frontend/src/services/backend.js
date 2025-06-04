@@ -20,3 +20,15 @@ export const deleteMovieFromDB = async (id) => {
   const data = await response.json();
   return data;
 };
+export const updateMovieInDB = async (updatedMovie) => {
+  const response = await fetch(
+    `http://localhost:5555/movies/${updatedMovie._id}`,
+    {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedMovie),
+    }
+  );
+  const data = await response.json();
+  return data;
+};

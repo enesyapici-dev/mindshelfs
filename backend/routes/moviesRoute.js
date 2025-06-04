@@ -86,26 +86,16 @@ router.get("/:id", async (request, response) => {
 //update movie
 router.put("/:id", async (request, response) => {
   try {
-    if (
-      !request.body.title ||
-      !request.body.poster_path ||
-      !request.body.director ||
-      !request.body.release_date ||
-      !request.body.vote_average ||
-      !request.body.duration ||
-      !request.body.isWatched
-    ) {
-      return response.status(400).send({
-        message: "Send all required fields",
-      });
-    }
     const { id } = request.params;
 
-    const result = await Movie.findByIdAndUpdate(id, request.body);
-    if (!result) {
+    const updatedMovie = await Movie.findByIdAndUpdate(id, request.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedMovie) {
       return response.status(404).send({ message: "Movie not found" });
     }
-    return response.status(200).send({ message: "Movie updated" });
+    return response.status(200).json(updatedMovie);
   } catch (error) {
     console.log(error.message);
     response.status(500).send({ message: error.message });
