@@ -15,6 +15,11 @@ const Moviedetails = ({
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editRating, setEditRating] = useState(
+    movie?.userStats?.userRating || 0
+  );
+  const [editDate, setEditDate] = useState(movie?.userStats?.watchDate || "");
 
   if (loading) return <Loading />;
   if (!movie) return null;
@@ -76,6 +81,7 @@ const Moviedetails = ({
       },
     };
   };
+
   const handleMarkAsWatched = () => {
     if (userRating === 0) {
       setShowWarning(true);
@@ -110,7 +116,49 @@ const Moviedetails = ({
         </div>
       </div>
       <div className="movie-details-user">
-        {movie.isWatched ? (
+        {editMode ? (
+          <div className="movie-details-user-cont">
+            <div className="movie-details-user-stats">
+              <h2 className="user-stats-header">Edit Movie</h2>
+              <span>Edit your rating:</span>
+              <StarRating
+                value={editRating}
+                onChange={setEditRating}
+                max={10}
+              />
+              <span>Edit watch date:</span>
+              <input
+                type="date"
+                value={editDate}
+                onChange={(e) => setEditDate(e.target.value)}
+              />
+            </div>
+            <div className="movie-buttons-cont user-stats-buttons">
+              <button
+                className="movie-details-button stats-button"
+                onClick={() => {
+                  handleEditWatched({
+                    ...movie,
+                    userStats: {
+                      ...movie.userStats,
+                      userRating: editRating,
+                      watchDate: editDate,
+                    },
+                  });
+                  setEditMode(false);
+                }}
+              >
+                Save
+              </button>
+              <button
+                className="movie-details-button stats-button"
+                onClick={() => setEditMode(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : movie.isWatched ? (
           showWarning ? (
             <div className="movie-details-user-cont">
               <span className="delete-q">
@@ -150,7 +198,7 @@ const Moviedetails = ({
               <div className="movie-buttons-cont user-stats-buttons">
                 <button
                   className="movie-details-button stats-button"
-                  onClick={() => onAddToWatchlist(createDbMovieObject(movie))}
+                  onClick={() => setEditMode(true)}
                 >
                   <MdModeEdit />
                 </button>
