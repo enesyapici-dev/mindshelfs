@@ -84,21 +84,19 @@ router.get("/:id", async (request, response) => {
 });
 
 //update movie
-router.put("/:id", async (request, response) => {
+router.put("/:id", async (req, res) => {
   try {
-    const { id } = request.params;
-
-    const updatedMovie = await Movie.findByIdAndUpdate(id, request.body, {
+    const { id } = req.params;
+    const updatedMovie = await Movie.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
     if (!updatedMovie) {
-      return response.status(404).send({ message: "Movie not found" });
+      return res.status(404).send({ message: "Movie not found" });
     }
-    return response.status(200).json(updatedMovie);
+    return res.status(200).json(updatedMovie);
   } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
+    res.status(500).send({ message: error.message });
   }
 });
 

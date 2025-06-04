@@ -92,18 +92,23 @@ const Moviedetails = ({
     }
     handleAddToWatched(createDbMovieObject(movie));
   };
-
-  const handleAddWatchDate = () => {
+  const watchDates = Array.isArray(movie.userStats?.watchDate)
+    ? movie.userStats.watchDate
+    : movie.userStats?.watchDate
+    ? [movie.userStats?.watchDate]
+    : [];
+  const handleAddWatchDate = async () => {
     const today = new Date();
     const formattedToday = `${String(today.getMonth() + 1).padStart(
       2,
       "0"
     )}.${String(today.getDate()).padStart(2, "0")}.${today.getFullYear()}`;
-    const prevDates = Array.isArray(movie.userStats.watchDate)
+    const prevDates = Array.isArray(movie.userStats?.watchDate)
       ? movie.userStats.watchDate
-      : movie.userStats.watchDate
+      : movie.userStats?.watchDate
       ? [movie.userStats.watchDate]
       : [];
+    console.log(prevDates);
     if (prevDates.includes(formattedToday)) return;
     const updatedMovie = {
       ...movie,
@@ -112,7 +117,7 @@ const Moviedetails = ({
         watchDate: [...prevDates, formattedToday],
       },
     };
-    handleUpdateWatched(updatedMovie);
+    await handleUpdateWatched(updatedMovie);
   };
   return (
     <div className="movie-details-cont">
@@ -212,11 +217,16 @@ const Moviedetails = ({
               <div className="movie-details-user-stats">
                 <h2 className="user-stats-header">User Stats</h2>
                 <span className="movie-card-user-rating">
-                  Your Rating: <span>★</span>
+                  Rating: <span>★</span>
                   {movie.userStats.userRating}/10
                 </span>
+
                 <span className="movie-card-watched-date">
-                  {movie.userStats.watchDate}
+                  {watchDates.map((date, i) => (
+                    <span key={i}>
+                      {i + 1} • {date}
+                    </span>
+                  ))}
                 </span>
               </div>
               <div className="movie-buttons-cont user-stats-buttons">

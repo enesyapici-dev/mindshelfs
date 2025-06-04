@@ -18,6 +18,7 @@ import {
 } from "../../services/backend";
 import Moviedetails from "../../components/Moviedetails/Moviedetails";
 
+// Category options for filtering movies
 const categories = [
   { title: "All Movies" },
   { title: "Watched" },
@@ -25,6 +26,7 @@ const categories = [
 ];
 
 const Movieshelf = () => {
+  // --- State ---
   const [searchQuery, setSearchQuery] = useState("");
   const [filterQuery, setFilterQuery] = useState(categories[0].title);
   const [allMovies, setAllMovies] = useState([]);
@@ -36,10 +38,13 @@ const Movieshelf = () => {
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [watchedMovies, setWatchedMovies] = useState([]);
 
+  // --- Effects ---
+  // Fetch watched movies on mount
   useEffect(() => {
     getWatchedMovies().then(setWatchedMovies);
   }, []);
 
+  // Fetch movie details when a movie is selected
   useEffect(() => {
     if (!selectedMovieId) return;
     setDetailsLoading(true);
@@ -59,6 +64,7 @@ const Movieshelf = () => {
       .finally(() => setDetailsLoading(false));
   }, [selectedMovieId, watchedMovies]);
 
+  // Fetch movies based on filter
   useEffect(() => {
     setLoading(true);
     if (filterQuery === "Watched") {
@@ -88,6 +94,8 @@ const Movieshelf = () => {
     setSearchQuery("");
   }, [filterQuery]);
 
+  // --- Handlers ---
+  // Search input change
   const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -114,17 +122,20 @@ const Movieshelf = () => {
     }
   };
 
+  // Category filter change
   const handleCategoryChange = (category) => {
     setFilterQuery(category);
     setSelectedMovieId(null);
     setMovieDetails(null);
   };
 
+  // Add movie to watched
   const handleAddToWatched = async (movie) => {
     await addMovieToDB(movie);
-
     setWatchedMovies((prev) => [...prev, movie]);
   };
+
+  // Delete movie from watched
   const handleDeleteWatched = async (id) => {
     await deleteMovieFromDB(id);
     setWatchedMovies((prev) => prev.filter((movie) => movie._id !== id));
@@ -132,14 +143,17 @@ const Movieshelf = () => {
     setMovieDetails(null);
     setSelectedMovieId(null);
   };
+
+  // Update watched movie
   const handleUpdateWatched = async (updatedMovie) => {
     const updated = await updateMovieInDB(updatedMovie);
-
     setWatchedMovies((prev) =>
       prev.map((movie) => (movie._id === updated._id ? updated : movie))
     );
     setMovieDetails(updated);
   };
+
+  // --- Render ---
   return (
     <div className="movie-page">
       <div className="movieshelf-cont">
