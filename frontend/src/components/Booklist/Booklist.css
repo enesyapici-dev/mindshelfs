@@ -1,0 +1,13 @@
+.book-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 345px);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark) transparent;
+  border: 2px solid var(--color-dark);
+  border-radius: 5px;
+  box-sizing: border-box;
+}

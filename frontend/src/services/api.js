@@ -27,13 +27,14 @@ export const getMovieDetails = async (movieId) => {
 
 //Open-Library API
 const BASE_URL_OL = "https://openlibrary.org";
-export const getPopularBooksByEditions = async () => {
+
+export const getPopularBooks = async () => {
   try {
     const response = await fetch(
-      `${BASE_URL_OL}/search.json?sort=editions&limit=20`
+      "https://www.googleapis.com/books/v1/volumes?q=subject:fiction&orderBy=newest&maxResults=20"
     );
     const data = await response.json();
-    return data.docs;
+    return data.items || [];
   } catch (error) {
     console.error(error);
     return [];
