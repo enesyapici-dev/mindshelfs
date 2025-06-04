@@ -18,7 +18,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="sidemenu-li">
-            <Link to="/bookshelfs" className="link">
+            <Link to="/bookshelf" className="link">
               Bookhelfs
             </Link>
           </li>
