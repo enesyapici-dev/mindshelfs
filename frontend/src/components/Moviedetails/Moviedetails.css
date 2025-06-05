@@ -152,10 +152,10 @@
 }
 .movie-details-user-cont {
   display: flex;
+  flex-direction: column;
   position: relative;
   width: 100%;
   align-items: center;
-
   gap: 1rem;
 }
 .movie-details-user-stats {

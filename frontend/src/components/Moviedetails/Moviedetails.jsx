@@ -14,6 +14,7 @@ const Moviedetails = ({
   handleAddToWatched,
   handleDeleteWatched,
   handleUpdateWatched,
+  handleAddtoWatchlist,
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
@@ -118,6 +119,28 @@ const Moviedetails = ({
       },
     };
     await handleUpdateWatched(updatedMovie);
+  };
+
+  const createWatchlistMovieObject = (movie) => {
+    return {
+      tmdb_id: movie.id,
+      title: movie.title,
+      poster_path: movie.poster_path,
+      director: director,
+      release_date: movie.release_date,
+      vote_average: movie.vote_average,
+      duration: movie.runtime,
+      actors: actors,
+      isWatched: false,
+      userStats: {
+        // Boş userStats objesi ekle - UNUTMA!
+        userRating: 0,
+        watchDate: [],
+      },
+    };
+  };
+  const handleAddToWatchlist = () => {
+    handleAddtoWatchlist(createWatchlistMovieObject(movie));
   };
   return (
     <div className="movie-details-cont">
@@ -263,7 +286,12 @@ const Moviedetails = ({
               >
                 Mark as Watched
               </button>
-              <button className="movie-details-button">Add to Watchlist</button>
+              <button
+                className="movie-details-button"
+                onClick={handleAddToWatchlist}
+              >
+                Add to Watchlist
+              </button>
             </div>
             {showWarning && (
               <span className="warning-toast">Please rate the movie!</span>

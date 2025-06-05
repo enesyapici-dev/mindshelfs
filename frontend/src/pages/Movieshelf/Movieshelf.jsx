@@ -153,6 +153,16 @@ const Movieshelf = () => {
     setMovieDetails(updated);
   };
 
+  // Add movie to watchlist
+  const handleAddtoWatchlist = async (movie) => {
+    try {
+      const result = await addMovieToDB(movie);
+      console.log("Added to watchlist:", result);
+      setWatchedMovies((prev) => [...prev, result]);
+    } catch (error) {
+      console.error("Error adding to watchlist:", error);
+    }
+  };
   // --- Render ---
   return (
     <div className="movie-page">
@@ -178,6 +188,7 @@ const Movieshelf = () => {
             handleAddToWatched={handleAddToWatched}
             handleDeleteWatched={handleDeleteWatched}
             handleUpdateWatched={handleUpdateWatched}
+            handleAddtoWatchlist={handleAddtoWatchlist}
           />
         ) : loading ? (
           <Loading />

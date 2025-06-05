@@ -15,7 +15,6 @@ router.post("/", async (request, response) => {
       !request.body.vote_average ||
       !request.body.duration ||
       !request.body.actors ||
-      !request.body.isWatched ||
       !request.body.userStats ||
       typeof request.body.isWatched === "undefined"
     ) {
