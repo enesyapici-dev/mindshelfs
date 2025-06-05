@@ -7,18 +7,26 @@ import { TfiMoreAlt } from "react-icons/tfi";
 const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
   const isAllMovie = cardType === "allmoviecard";
   const isWatched = cardType === "watched";
+  const isWatchLater = cardType === "watch-later"; // Yeni kontrol
 
   const title = movie.title;
-
   const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
   const year = movie.release_date
     ? movie.release_date.toString().slice(0, 4)
     : "";
   const rating = Number(movie.vote_average).toFixed(1);
-
   const director = isAllMovie ? "" : movie.director;
   const duration = isAllMovie ? "" : movie.duration;
+
+  // Watch-later için oluşturulma tarihini formatla
+  const formatCreatedDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <div className="movie-card" onClick={onClick}>
@@ -51,7 +59,14 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
           ""
         )}
 
-        {movie.userStats ? (
+        {/* Watch-later için özel görünüm */}
+        {isWatchLater ? (
+          <div className="watchlater-card-details">
+            <span className="watchlater-card-added-date">
+              Added: {formatCreatedDate(movie.createdAt)}
+            </span>
+          </div>
+        ) : movie.userStats ? (
           <div className="watched-card-details">
             <span className="watched-card-user-rating">
               Your Rating: <span className="star">★</span>

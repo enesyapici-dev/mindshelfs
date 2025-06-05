@@ -119,3 +119,18 @@
   justify-content: space-between;
   align-items: center;
 }
+.watchlater-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color-light-gray);
+  border-radius: 4px;
+}
+
+.watchlater-card-added-date {
+  text-align: center;
+  color: var(--color-dark);
+  font-size: 1rem;
+  font-weight: 500;
+}

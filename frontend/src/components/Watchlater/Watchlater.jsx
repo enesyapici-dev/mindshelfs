@@ -7,7 +7,7 @@ const Watchlater = ({ movies, onMovieClick }) => {
       <div className="watchlater-movies">
         <Movielist
           movies={movies}
-          cardType={"watched"}
+          cardType={"watch-later"}
           onMovieClick={onMovieClick}
         />
       </div>
