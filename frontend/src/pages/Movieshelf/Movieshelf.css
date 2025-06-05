@@ -1,5 +1,6 @@
 .movieshelf-cont {
-  width: 960px;
+  width: 100%;
+  max-width: 960px;
   margin: 0 auto;
   padding: 2rem;
   border-left: 2px solid var(--color-dark);
@@ -8,6 +9,7 @@
   overflow: hidden;
   padding-bottom: 2rem;
 }
+
 .movie-page {
   display: flex;
 }
@@ -16,4 +18,9 @@
   position: absolute;
   right: 0;
   margin: 1rem;
+}
+.filters-cont {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

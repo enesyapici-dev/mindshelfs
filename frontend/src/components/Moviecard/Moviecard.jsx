@@ -7,8 +7,7 @@ import { TfiMoreAlt } from "react-icons/tfi";
 const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
   const isAllMovie = cardType === "allmoviecard";
   const isWatched = cardType === "watched";
-  const isWatchLater = cardType === "watch-later"; // Yeni kontrol
-
+  const isWatchLater = cardType === "watch-later";
   const title = movie.title;
   const poster = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
   const year = movie.release_date
@@ -18,7 +17,6 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
   const director = isAllMovie ? "" : movie.director;
   const duration = isAllMovie ? "" : movie.duration;
 
-  // Watch-later için oluşturulma tarihini formatla
   const formatCreatedDate = (dateStr) => {
     if (!dateStr) return "";
     const date = new Date(dateStr);
@@ -26,6 +24,23 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
+  };
+  const getLatestWatchDate = () => {
+    if (!movie.userStats?.watchDate) return "";
+
+    const watchDates = Array.isArray(movie.userStats.watchDate)
+      ? movie.userStats.watchDate
+      : [movie.userStats.watchDate];
+
+    const latestDate = watchDates[watchDates.length - 1] || "";
+
+    if (!latestDate) return "";
+
+    const date = new Date(latestDate);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}.${day}.${year}`;
   };
 
   return (
@@ -59,7 +74,7 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
           ""
         )}
 
-        {/* Watch-later için özel görünüm */}
+        {/* Watch-later*/}
         {isWatchLater ? (
           <div className="watchlater-card-details">
             <span className="watchlater-card-added-date">
@@ -72,9 +87,7 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
               Your Rating: <span className="star">★</span>
               {movie.userStats.userRating}/10
             </span>
-            <span className="watched-card-date">
-              {movie.userStats.watchDate}
-            </span>
+            <span className="watched-card-date">{getLatestWatchDate()}</span>
           </div>
         ) : (
           <></>

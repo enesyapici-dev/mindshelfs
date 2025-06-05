@@ -18,6 +18,7 @@ import {
 } from "../../services/backend";
 import Moviedetails from "../../components/Moviedetails/Moviedetails";
 import Watchlater from "../../components/Watchlater/Watchlater";
+import Filterbar from "../../components/Filterbar/Filterbar";
 
 // Category options for filtering movies
 const categories = [
@@ -38,7 +39,8 @@ const Movieshelf = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [watchedMovies, setWatchedMovies] = useState([]);
-
+  const [yearSort, setYearSort] = useState("none");
+  const [titleSort, setTitleSort] = useState("none");
   // --- Effects ---
   // Fetch watched movies on mount
   useEffect(() => {
@@ -177,6 +179,67 @@ const Movieshelf = () => {
       console.error("Error adding to watchlater:", error);
     }
   };
+  const handleSort = (type, order) => {
+    if (type === "year") {
+      setYearSort(order);
+      if (order !== "none") setTitleSort("none");
+    } else if (type === "title") {
+      setTitleSort(order);
+      if (order !== "none") setYearSort("none");
+    }
+  };
+
+  const sortMovies = (movies) => {
+    if (yearSort !== "none") {
+      return [...movies].sort((a, b) => {
+        let dateA, dateB;
+
+        if (filterQuery === "Watch Later") {
+          // Watch Later için createdAt tarihine göre sırala
+          dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+          dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+        } else if (filterQuery === "Watched") {
+          // Watched için en son izleme tarihine göre sırala
+          const getLatestWatchDate = (movie) => {
+            if (!movie.userStats?.watchDate) return new Date(0);
+
+            const watchDates = Array.isArray(movie.userStats.watchDate)
+              ? movie.userStats.watchDate
+              : [movie.userStats.watchDate];
+
+            const latestDate = watchDates[watchDates.length - 1];
+            if (!latestDate) return new Date(0);
+
+            // MM.DD.YYYY formatını Date'e çevir
+            const [month, day, year] = latestDate.split(".");
+            return new Date(year, month - 1, day);
+          };
+
+          dateA = getLatestWatchDate(a);
+          dateB = getLatestWatchDate(b);
+        } else {
+          // All Movies için release_date
+          dateA = a.release_date ? new Date(a.release_date) : new Date(0);
+          dateB = b.release_date ? new Date(b.release_date) : new Date(0);
+        }
+
+        return yearSort === "asc" ? dateA - dateB : dateB - dateA;
+      });
+    }
+
+    if (titleSort !== "none") {
+      return [...movies].sort((a, b) => {
+        const titleA = a.title.toLowerCase();
+        const titleB = b.title.toLowerCase();
+        return titleSort === "asc"
+          ? titleA.localeCompare(titleB)
+          : titleB.localeCompare(titleA);
+      });
+    }
+
+    return movies;
+  };
+
   // --- Render ---
   return (
     <div className="movie-page">
@@ -186,11 +249,18 @@ const Movieshelf = () => {
           onchange={handleChange}
           value={searchQuery}
         />
-        <ShelfFilter
-          categories={categories}
-          onCategoryChange={handleCategoryChange}
-          selected={filterQuery}
-        />
+        <div className="filters-cont">
+          <ShelfFilter
+            categories={categories}
+            onCategoryChange={handleCategoryChange}
+            selected={filterQuery}
+          />
+          <Filterbar
+            onSort={handleSort}
+            yearSort={yearSort}
+            titleSort={titleSort}
+          />
+        </div>
         {selectedMovieId ? (
           <Moviedetails
             movie={movieDetails}
@@ -215,17 +285,21 @@ const Movieshelf = () => {
           </div>
         ) : filterQuery === "Watched" ? (
           <WatchedMovies
-            movies={movies.filter((movie) => movie.isWatched)}
+            movies={sortMovies(
+              watchedMovies.filter((movie) => movie.isWatched)
+            )}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />
         ) : filterQuery === "Watch Later" ? (
           <Watchlater
-            movies={movies.filter((movie) => !movie.isWatched)}
+            movies={sortMovies(
+              watchedMovies.filter((movie) => !movie.isWatched)
+            )}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />
         ) : (
           <Allmovies
-            movies={movies}
+            movies={sortMovies(movies)}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />
         )}

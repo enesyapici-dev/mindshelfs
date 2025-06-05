@@ -1,0 +1,46 @@
+.filterbar-cont {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  border: var(--color-dark) 2px solid;
+  border-radius: 5px;
+
+  display: inline-flex;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.filterbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: none;
+  width: 90px;
+  outline: none;
+  background: transparent;
+  color: var(--color-dark);
+  border-right: var(--color-dark) 2px solid;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, font-weight 0.2s, box-shadow 0.2s;
+}
+.filterbar-button span {
+  font-size: 1.5rem;
+  line-height: 1; /* Line-height'ı normalize et */
+  display: flex; /* İkonun da flex olması için */
+  align-items: center;
+}
+.filterbar-button:last-child {
+  border-right: none;
+}
+
+.filterbar-button.active {
+  background: var(--color-red);
+  color: #fff;
+
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.15);
+}
