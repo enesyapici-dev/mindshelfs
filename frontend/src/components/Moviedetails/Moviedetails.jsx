@@ -209,11 +209,18 @@ const Moviedetails = ({
         <IoIosArrowBack />
       </button>
       <div className="movie-details-global">
-        <img
-          className="movie-details-poster"
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={title}
-        />
+        <a
+          href={`https://www.google.com/search?q=${title}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            className="movie-details-poster"
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={title}
+          />
+        </a>
+
         <div className="movie-head-details">
           <h2 className="movie-details-title">{title}</h2>
           <h3 className="movie-details-title">{director}</h3>
