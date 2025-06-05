@@ -14,7 +14,7 @@ const Moviedetails = ({
   handleAddToWatched,
   handleDeleteWatched,
   handleUpdateWatched,
-  handleAddtoWatchlist,
+  handleAddtoWatchlater,
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
@@ -121,7 +121,7 @@ const Moviedetails = ({
     await handleUpdateWatched(updatedMovie);
   };
 
-  const createWatchlistMovieObject = (movie) => {
+  const createWatchlaterMovieObject = (movie) => {
     return {
       tmdb_id: movie.id,
       title: movie.title,
@@ -139,8 +139,8 @@ const Moviedetails = ({
       },
     };
   };
-  const handleAddToWatchlist = () => {
-    handleAddtoWatchlist(createWatchlistMovieObject(movie));
+  const handleAddToWatchlater = () => {
+    handleAddtoWatchlater(createWatchlaterMovieObject(movie));
   };
   return (
     <div className="movie-details-cont">
@@ -288,9 +288,9 @@ const Moviedetails = ({
               </button>
               <button
                 className="movie-details-button"
-                onClick={handleAddToWatchlist}
+                onClick={handleAddToWatchlater}
               >
-                Add to Watchlist
+                Add to Watchlater
               </button>
             </div>
             {showWarning && (

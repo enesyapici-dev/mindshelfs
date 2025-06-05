@@ -17,12 +17,13 @@ import {
   updateMovieInDB,
 } from "../../services/backend";
 import Moviedetails from "../../components/Moviedetails/Moviedetails";
+import Watchlater from "../../components/Watchlater/Watchlater";
 
 // Category options for filtering movies
 const categories = [
   { title: "All Movies" },
   { title: "Watched" },
-  { title: "Watch List" },
+  { title: "Watch Later" },
 ];
 
 const Movieshelf = () => {
@@ -86,14 +87,20 @@ const Movieshelf = () => {
         })
         .catch(() => setError("Failed to load movies..."))
         .finally(() => setLoading(false));
-    } else {
-      setAllMovies([]);
-      setMovies([]);
-      setLoading(false);
+    } else if (filterQuery === "Watch Later") {
+      getWatchedMovies()
+        .then((allMovies) => {
+          setAllMovies(allMovies);
+          setMovies(allMovies);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError("Failed to load movies...");
+        })
+        .finally(() => setLoading(false));
     }
     setSearchQuery("");
   }, [filterQuery]);
-
   // --- Handlers ---
   // Search input change
   const handleChange = async (e) => {
@@ -153,14 +160,14 @@ const Movieshelf = () => {
     setMovieDetails(updated);
   };
 
-  // Add movie to watchlist
-  const handleAddtoWatchlist = async (movie) => {
+  // Add movie to watchlater
+  const handleAddtoWatchlater = async (movie) => {
     try {
       const result = await addMovieToDB(movie);
-      console.log("Added to watchlist:", result);
+      console.log("Added to watchlater:", result);
       setWatchedMovies((prev) => [...prev, result]);
     } catch (error) {
-      console.error("Error adding to watchlist:", error);
+      console.error("Error adding to watchlater:", error);
     }
   };
   // --- Render ---
@@ -188,7 +195,7 @@ const Movieshelf = () => {
             handleAddToWatched={handleAddToWatched}
             handleDeleteWatched={handleDeleteWatched}
             handleUpdateWatched={handleUpdateWatched}
-            handleAddtoWatchlist={handleAddtoWatchlist}
+            handleAddtoWatchlater={handleAddtoWatchlater}
           />
         ) : loading ? (
           <Loading />
@@ -198,11 +205,14 @@ const Movieshelf = () => {
           </div>
         ) : filterQuery === "Watched" ? (
           <WatchedMovies
-            movies={movies}
+            movies={movies.filter((movie) => movie.isWatched)}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />
-        ) : filterQuery === "Watch List" ? (
-          <Loading />
+        ) : filterQuery === "Watch Later" ? (
+          <Watchlater
+            movies={movies.filter((movie) => !movie.isWatched)}
+            onMovieClick={(movieId) => setSelectedMovieId(movieId)}
+          />
         ) : (
           <Allmovies
             movies={movies}
