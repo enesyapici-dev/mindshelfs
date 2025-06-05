@@ -39,7 +39,7 @@ const Movieshelf = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [watchedMovies, setWatchedMovies] = useState([]);
-  const [yearSort, setYearSort] = useState("none");
+  const [yearSort, setYearSort] = useState("desc");
   const [titleSort, setTitleSort] = useState("none");
   // --- Effects ---
   // Fetch watched movies on mount
@@ -195,11 +195,9 @@ const Movieshelf = () => {
         let dateA, dateB;
 
         if (filterQuery === "Watch Later") {
-          // Watch Later için createdAt tarihine göre sırala
           dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
           dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
         } else if (filterQuery === "Watched") {
-          // Watched için en son izleme tarihine göre sırala
           const getLatestWatchDate = (movie) => {
             if (!movie.userStats?.watchDate) return new Date(0);
 
@@ -210,7 +208,6 @@ const Movieshelf = () => {
             const latestDate = watchDates[watchDates.length - 1];
             if (!latestDate) return new Date(0);
 
-            // MM.DD.YYYY formatını Date'e çevir
             const [month, day, year] = latestDate.split(".");
             return new Date(year, month - 1, day);
           };
@@ -218,7 +215,6 @@ const Movieshelf = () => {
           dateA = getLatestWatchDate(a);
           dateB = getLatestWatchDate(b);
         } else {
-          // All Movies için release_date
           dateA = a.release_date ? new Date(a.release_date) : new Date(0);
           dateB = b.release_date ? new Date(b.release_date) : new Date(0);
         }

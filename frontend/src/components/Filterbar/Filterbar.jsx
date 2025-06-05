@@ -5,16 +5,16 @@ import { IoMdArrowDropup, IoMdArrowDropdown } from "react-icons/io";
 const Filterbar = ({ onSort, yearSort, titleSort }) => {
   const handleYearSort = () => {
     let nextSort;
-    if (yearSort === "none") nextSort = "asc";
-    else if (yearSort === "asc") nextSort = "desc";
+    if (yearSort === "none") nextSort = "desc";
+    else if (yearSort === "desc") nextSort = "asc";
     else nextSort = "none";
     onSort("year", nextSort);
   };
 
   const handleTitleSort = () => {
     let nextSort;
-    if (titleSort === "none") nextSort = "asc";
-    else if (titleSort === "asc") nextSort = "desc";
+    if (titleSort === "none") nextSort = "desc";
+    else if (titleSort === "desc") nextSort = "asc";
     else nextSort = "none";
     onSort("title", nextSort);
   };

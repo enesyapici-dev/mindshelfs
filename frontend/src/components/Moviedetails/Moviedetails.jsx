@@ -44,10 +44,12 @@ const Moviedetails = ({
       const mostRecentDate =
         watchDates.length > 0 ? watchDates[watchDates.length - 1] : "";
 
-      // Convert DD.MM.YYYY to YYYY-MM-DD for date input
+      // Convert MM.DD.YYYY to YYYY-MM-DD for date input
       if (mostRecentDate) {
-        const [day, month, year] = mostRecentDate.split(".");
-        setEditDate(`${year}-${month}-${day}`);
+        const [month, day, year] = mostRecentDate.split(".");
+        setEditDate(
+          `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+        );
       } else {
         setEditDate("");
       }
@@ -125,11 +127,22 @@ const Moviedetails = ({
   };
 
   const handleEditWatched = async (updatedMovie) => {
-    // Convert date from YYYY-MM-DD to DD.MM.YYYY format
     let formattedDate = editDate;
     if (editDate) {
       const [year, month, day] = editDate.split("-");
-      formattedDate = `${day}.${month}.${year}`;
+      formattedDate = `${month}.${day}.${year}`;
+    }
+
+    const existingDates = Array.isArray(movie.userStats?.watchDate)
+      ? movie.userStats.watchDate
+      : movie.userStats?.watchDate
+      ? [movie.userStats.watchDate]
+      : [];
+
+    const updatedDates = existingDates.slice(0, -1);
+
+    if (formattedDate) {
+      updatedDates.push(formattedDate);
     }
 
     const movieToUpdate = {
@@ -137,7 +150,7 @@ const Moviedetails = ({
       userStats: {
         ...updatedMovie.userStats,
         userRating: editRating,
-        watchDate: formattedDate ? [formattedDate] : [],
+        watchDate: updatedDates.length > 0 ? updatedDates : [],
       },
     };
 
