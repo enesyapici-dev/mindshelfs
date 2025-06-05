@@ -108,23 +108,27 @@ const Movieshelf = () => {
   }, [filterQuery]);
 
   // --- Handlers ---
-  // Search input change
+
   const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
 
     if (filterQuery === "Watched" || filterQuery === "Watch Later") {
-      const filtered = allMovies.filter((movie) =>
-        movie.title.toLowerCase().includes(value.toLowerCase())
-      );
-      setMovies(filtered);
+      if (value.trim() === "") {
+        getWatchedMovies().then(setWatchedMovies);
+      } else {
+        const filtered = watchedMovies.filter((movie) =>
+          movie.title.toLowerCase().includes(value.trim().toLowerCase())
+        );
+        setWatchedMovies(filtered);
+      }
     } else if (filterQuery === "All Movies") {
       if (value.trim() === "") {
         setMovies(allMovies);
       } else {
         setLoading(true);
         try {
-          const results = await searchMovies(value);
+          const results = await searchMovies(value.trim());
           setMovies(results);
         } catch {
           setError("Failed to search movies...");
