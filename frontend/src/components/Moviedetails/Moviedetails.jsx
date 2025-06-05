@@ -24,7 +24,7 @@ const Moviedetails = ({
   const [editMode, setEditMode] = useState(false);
   const [editRating, setEditRating] = useState(0);
   const [editDate, setEditDate] = useState("");
-  // Reset all states when movie changes
+
   useEffect(() => {
     if (movie) {
       setUserRating(0);
@@ -33,18 +33,15 @@ const Moviedetails = ({
       setEditMode(false);
       setEditRating(movie?.userStats?.userRating || 0);
 
-      // Handle editDate initialization for arrays
       const watchDates = Array.isArray(movie.userStats?.watchDate)
         ? movie.userStats.watchDate
         : movie.userStats?.watchDate
         ? [movie.userStats?.watchDate]
         : [];
 
-      // Use the most recent date for editing, or empty string if no dates
       const mostRecentDate =
         watchDates.length > 0 ? watchDates[watchDates.length - 1] : "";
 
-      // Convert MM.DD.YYYY to YYYY-MM-DD for date input
       if (mostRecentDate) {
         const [month, day, year] = mostRecentDate.split(".");
         setEditDate(
@@ -115,15 +112,6 @@ const Moviedetails = ({
         watchDate: formattedToday,
       },
     };
-  };
-  const handleMarkAsWatched = () => {
-    // Only show warning if user is trying to mark as watched (not for watchlist items)
-    if (userRating === 0 && !movie.isWatched) {
-      setShowRatingWarning(true);
-      setTimeout(() => setShowRatingWarning(false), 2100);
-      return;
-    }
-    handleAddToWatched(createDbMovieObject(movie));
   };
 
   const handleEditWatched = async (updatedMovie) => {
@@ -215,6 +203,27 @@ const Moviedetails = ({
       handleDeleteWatchlater(watchlistMovie._id);
     }
   };
+  const handleMarkAsWatched = async () => {
+    if (userRating === 0 && !movie.isWatched) {
+      setShowRatingWarning(true);
+      setTimeout(() => setShowRatingWarning(false), 2100);
+      return;
+    }
+
+    if (isAlreadyInWatchlist && watchlistMovie) {
+      const updatedMovie = {
+        ...watchlistMovie,
+        isWatched: true,
+        userStats: {
+          userRating: userRating,
+          watchDate: formatDate(new Date().toISOString().slice(0, 10)),
+        },
+      };
+      await handleUpdateWatched(updatedMovie);
+    } else {
+      await handleAddToWatched(createDbMovieObject(movie));
+    }
+  };
   console.log(movie);
   return (
     <div className="movie-details-cont">
@@ -253,17 +262,24 @@ const Moviedetails = ({
           <div className="movie-details-user-cont">
             <div className="movie-details-user-stats">
               <h2 className="user-stats-header">Edit Movie</h2>
-              <span>Edit your rating:</span>
-              <StarRating
-                value={editRating}
-                onChange={setEditRating}
-                max={10}
-              />
-              <span>Edit watch date:</span>
+              <span className="user-stats-edit-headers">Edit Rating</span>
+              <span className="user-stats-edit-stars">
+                {" "}
+                <StarRating
+                  value={editRating}
+                  onChange={setEditRating}
+                  max={10}
+                />
+              </span>
+              <span className="user-stats-edit-headers">Edit watch date:</span>
               <input
                 type="date"
                 value={editDate}
                 onChange={(e) => setEditDate(e.target.value)}
+                className="user-stats-edit-date-input"
+                onMouseDown={(e) => e.target.showPicker()} // Mouse down'da picker aç
+                onKeyDown={(e) => e.preventDefault()} // Klavye girişini engelle
+                style={{ caretColor: "transparent" }} // Inline style ile cursor gizle
               />
             </div>
             <div className="movie-buttons-cont user-stats-buttons">
