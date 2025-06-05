@@ -90,8 +90,11 @@ const Movieshelf = () => {
     } else if (filterQuery === "Watch Later") {
       getWatchedMovies()
         .then((allMovies) => {
-          setAllMovies(allMovies);
-          setMovies(allMovies);
+          const watchLaterMovies = allMovies.filter(
+            (movie) => !movie.isWatched
+          );
+          setAllMovies(watchLaterMovies);
+          setMovies(watchLaterMovies);
         })
         .catch((err) => {
           console.error(err);
@@ -101,13 +104,14 @@ const Movieshelf = () => {
     }
     setSearchQuery("");
   }, [filterQuery]);
+
   // --- Handlers ---
   // Search input change
   const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
 
-    if (filterQuery === "Watched") {
+    if (filterQuery === "Watched" || filterQuery === "Watch Later") {
       const filtered = allMovies.filter((movie) =>
         movie.title.toLowerCase().includes(value.toLowerCase())
       );
@@ -147,8 +151,11 @@ const Movieshelf = () => {
     await deleteMovieFromDB(id);
     setWatchedMovies((prev) => prev.filter((movie) => movie._id !== id));
     setMovies((prev) => prev.filter((movie) => movie._id !== id));
-    setMovieDetails(null);
-    setSelectedMovieId(null);
+  };
+  // Delete movie from watch-later
+  const handleRemoveFromWatchlater = async (id) => {
+    await deleteMovieFromDB(id);
+    setWatchedMovies((prev) => prev.filter((movie) => movie._id !== id));
   };
 
   // Update watched movie
@@ -194,6 +201,7 @@ const Movieshelf = () => {
             }}
             handleAddToWatched={handleAddToWatched}
             handleDeleteWatched={handleDeleteWatched}
+            handleDeleteWatchlater={handleRemoveFromWatchlater}
             handleUpdateWatched={handleUpdateWatched}
             handleAddtoWatchlater={handleAddtoWatchlater}
             watchedMovies={watchedMovies}

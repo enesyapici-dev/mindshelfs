@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Moviedetails.css";
 import Loading from "../Loading/Loading";
 import { FaStar } from "react-icons/fa";
@@ -16,14 +16,43 @@ const Moviedetails = ({
   handleUpdateWatched,
   handleAddtoWatchlater,
   watchedMovies,
+  handleDeleteWatchlater,
 }) => {
   const [userRating, setUserRating] = useState(0);
-  const [showWarning, setShowWarning] = useState(false);
+  const [showRatingWarning, setShowRatingWarning] = useState(false);
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [editRating, setEditRating] = useState(
-    movie?.userStats?.userRating || 0
-  );
-  const [editDate, setEditDate] = useState(movie?.userStats?.watchDate || "");
+  const [editRating, setEditRating] = useState(0);
+  const [editDate, setEditDate] = useState("");
+  // Reset all states when movie changes
+  useEffect(() => {
+    if (movie) {
+      setUserRating(0);
+      setShowRatingWarning(false);
+      setShowDeleteWarning(false);
+      setEditMode(false);
+      setEditRating(movie?.userStats?.userRating || 0);
+
+      // Handle editDate initialization for arrays
+      const watchDates = Array.isArray(movie.userStats?.watchDate)
+        ? movie.userStats.watchDate
+        : movie.userStats?.watchDate
+        ? [movie.userStats?.watchDate]
+        : [];
+
+      // Use the most recent date for editing, or empty string if no dates
+      const mostRecentDate =
+        watchDates.length > 0 ? watchDates[watchDates.length - 1] : "";
+
+      // Convert DD.MM.YYYY to YYYY-MM-DD for date input
+      if (mostRecentDate) {
+        const [day, month, year] = mostRecentDate.split(".");
+        setEditDate(`${year}-${month}-${day}`);
+      } else {
+        setEditDate("");
+      }
+    }
+  }, [movie]);
 
   if (loading) return <Loading />;
   if (!movie) return null;
@@ -85,14 +114,34 @@ const Moviedetails = ({
       },
     };
   };
-
   const handleMarkAsWatched = () => {
-    if (userRating === 0) {
-      setShowWarning(true);
-      setTimeout(() => setShowWarning(false), 2100);
+    // Only show warning if user is trying to mark as watched (not for watchlist items)
+    if (userRating === 0 && !movie.isWatched) {
+      setShowRatingWarning(true);
+      setTimeout(() => setShowRatingWarning(false), 2100);
       return;
     }
     handleAddToWatched(createDbMovieObject(movie));
+  };
+
+  const handleEditWatched = async (updatedMovie) => {
+    // Convert date from YYYY-MM-DD to DD.MM.YYYY format
+    let formattedDate = editDate;
+    if (editDate) {
+      const [year, month, day] = editDate.split("-");
+      formattedDate = `${day}.${month}.${year}`;
+    }
+
+    const movieToUpdate = {
+      ...updatedMovie,
+      userStats: {
+        ...updatedMovie.userStats,
+        userRating: editRating,
+        watchDate: formattedDate ? [formattedDate] : [],
+      },
+    };
+
+    await handleUpdateWatched(movieToUpdate);
   };
   const watchDates = Array.isArray(movie.userStats?.watchDate)
     ? movie.userStats.watchDate
@@ -150,7 +199,7 @@ const Moviedetails = ({
   };
   const handleRemoveFromWatchlist = () => {
     if (watchlistMovie) {
-      handleDeleteWatched(watchlistMovie._id);
+      handleDeleteWatchlater(watchlistMovie._id);
     }
   };
   console.log(movie);
@@ -198,6 +247,7 @@ const Moviedetails = ({
               />
             </div>
             <div className="movie-buttons-cont user-stats-buttons">
+              {" "}
               <button
                 className="movie-details-button stats-button"
                 onClick={() => {
@@ -223,7 +273,7 @@ const Moviedetails = ({
             </div>
           </div>
         ) : movie.isWatched ? (
-          showWarning ? (
+          showDeleteWarning ? (
             <div className="movie-details-user-cont">
               <span className="delete-q">
                 Do You Want to Remove {movie.title} From Watched Movies?
@@ -232,7 +282,7 @@ const Moviedetails = ({
                 <button
                   className="movie-details-button delete-no"
                   onClick={() => {
-                    setShowWarning(false);
+                    setShowDeleteWarning(false);
                   }}
                 >
                   No
@@ -276,11 +326,11 @@ const Moviedetails = ({
                   onClick={() => setEditMode(true)}
                 >
                   <MdModeEdit />
-                </button>
+                </button>{" "}
                 <button
                   className="movie-details-button stats-button"
                   onClick={() => {
-                    setShowWarning(true);
+                    setShowDeleteWarning(true);
                   }}
                 >
                   <FaTrashCan />
@@ -307,14 +357,14 @@ const Moviedetails = ({
                 </button>
               ) : (
                 <button
-                  className="movie-details-button"
+                  className="movie-details-button add-watchlist-button"
                   onClick={handleAddToWatchlater}
                 >
                   Add to Watchlater
                 </button>
               )}
-            </div>
-            {showWarning && (
+            </div>{" "}
+            {showRatingWarning && (
               <span className="warning-toast">Please rate the movie!</span>
             )}
           </div>
