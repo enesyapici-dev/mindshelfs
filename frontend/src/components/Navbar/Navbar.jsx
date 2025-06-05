@@ -1,6 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { FaRegUser } from "react-icons/fa";
 
 const Navbar = () => {
   return (
@@ -11,9 +12,10 @@ const Navbar = () => {
             Mindshelves
           </Link>
         </h1>
-        <div className="movie-details-button">
-          <Link className="movie-details-button">Login</Link>
-        </div>
+
+        <Link className="movie-details-button">
+          <FaRegUser />
+        </Link>
       </div>
     </nav>
   );
