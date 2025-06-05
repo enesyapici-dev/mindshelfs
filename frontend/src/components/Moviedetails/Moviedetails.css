@@ -257,3 +257,12 @@
   background-color: var(--color-red);
   color: var(--color-light-gray);
 }
+.movie-details-button.remove-button {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.movie-details-button.remove-button:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}

@@ -196,6 +196,8 @@ const Movieshelf = () => {
             handleDeleteWatched={handleDeleteWatched}
             handleUpdateWatched={handleUpdateWatched}
             handleAddtoWatchlater={handleAddtoWatchlater}
+            watchedMovies={watchedMovies}
+            onCategoryChange={handleCategoryChange}
           />
         ) : loading ? (
           <Loading />

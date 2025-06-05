@@ -15,6 +15,7 @@ const Moviedetails = ({
   handleDeleteWatched,
   handleUpdateWatched,
   handleAddtoWatchlater,
+  watchedMovies,
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
@@ -133,15 +134,26 @@ const Moviedetails = ({
       actors: actors,
       isWatched: false,
       userStats: {
-        // Boş userStats objesi ekle - UNUTMA!
         userRating: 0,
         watchDate: [],
       },
     };
   };
+  const isAlreadyInWatchlist = watchedMovies?.some(
+    (dbMovie) => dbMovie.tmdb_id === movie.id && !dbMovie.isWatched
+  );
+  const watchlistMovie = watchedMovies?.find(
+    (dbMovie) => dbMovie.tmdb_id === movie.id && !dbMovie.isWatched
+  );
   const handleAddToWatchlater = () => {
     handleAddtoWatchlater(createWatchlaterMovieObject(movie));
   };
+  const handleRemoveFromWatchlist = () => {
+    if (watchlistMovie) {
+      handleDeleteWatched(watchlistMovie._id);
+    }
+  };
+  console.log(movie);
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>
@@ -286,12 +298,21 @@ const Moviedetails = ({
               >
                 Mark as Watched
               </button>
-              <button
-                className="movie-details-button"
-                onClick={handleAddToWatchlater}
-              >
-                Add to Watchlater
-              </button>
+              {isAlreadyInWatchlist ? (
+                <button
+                  className="movie-details-button remove-button"
+                  onClick={handleRemoveFromWatchlist}
+                >
+                  Remove from Watchlist
+                </button>
+              ) : (
+                <button
+                  className="movie-details-button"
+                  onClick={handleAddToWatchlater}
+                >
+                  Add to Watchlater
+                </button>
+              )}
             </div>
             {showWarning && (
               <span className="warning-toast">Please rate the movie!</span>
