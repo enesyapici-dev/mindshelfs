@@ -37,10 +37,31 @@
 .filterbar-button:last-child {
   border-right: none;
 }
-
+.filterbar-button:nth-child(2) {
+  border-left: 2px solid var(--color-dark);
+}
 .filterbar-button.active {
   background: var(--color-red);
   color: #fff;
 
   box-shadow: 0 2px 8px rgba(230, 57, 70, 0.15);
+}
+.year-filter-button {
+  width: 135px;
+  position: relative;
+  text-align: center;
+  justify-content: space-between;
+  border-right: none;
+}
+.year-filter-button.active {
+  background-color: var(--color-light-gray);
+  color: var(--color-dark);
+  border: none;
+}
+.year-dropdown {
+  position: absolute;
+  background-color: var(--color-light-gray);
+  width: 135px;
+  border: 2px solid var(--color-dark);
+  cursor: pointer;
 }

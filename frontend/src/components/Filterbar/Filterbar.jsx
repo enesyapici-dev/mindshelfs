@@ -46,29 +46,20 @@ const Filterbar = ({
     if (titleSort === "desc") return <IoMdArrowDropdown />;
     return null;
   };
-
   const availableYears = useMemo(() => {
-    console.log("=== getAvailableYears called ===");
-    console.log("Movies prop:", movies);
-    console.log("Current view:", currentView);
-
     if (!movies || movies.length === 0) {
-      console.log("No movies found");
       return [];
     }
 
     const years = [];
 
     movies.forEach((movie) => {
-      console.log("Processing movie:", movie.title, movie);
-
       // Determine years based on current view
       if (currentView === "All Movies") {
         // For All Movies, use release_date
         if (movie.release_date) {
           const releaseYear = new Date(movie.release_date).getFullYear();
           if (releaseYear && !isNaN(releaseYear)) {
-            console.log("Adding release year:", releaseYear);
             years.push(releaseYear);
           }
         }
@@ -84,7 +75,6 @@ const Filterbar = ({
               const [month, day, year] = date.split(".");
               const yearInt = parseInt(year);
               if (yearInt && !isNaN(yearInt)) {
-                console.log("Adding watch year:", yearInt);
                 years.push(yearInt);
               }
             }
@@ -95,7 +85,6 @@ const Filterbar = ({
         if (movie.createdAt) {
           const createdYear = new Date(movie.createdAt).getFullYear();
           if (createdYear && !isNaN(createdYear)) {
-            console.log("Adding created year:", createdYear);
             years.push(createdYear);
           }
         }
@@ -104,22 +93,16 @@ const Filterbar = ({
 
     // Get unique years and sort (newest to oldest)
     const uniqueYears = [...new Set(years)].sort((a, b) => b - a);
-    console.log("Available years:", uniqueYears);
     return uniqueYears;
   }, [movies, currentView]);
-
   const handleYearSelect = (year) => {
     setSelectedYear(year);
     setShowYearDropdown(false);
-    onYearFilter(year);
-  };
 
-  // Debug log to check dropdown rendering
-  console.log("Rendering dropdown:", {
-    showYearDropdown,
-    availableYears,
-    selectedYear,
-  });
+    if (onYearFilter) {
+      onYearFilter(year);
+    }
+  };
 
   return (
     <div className="filterbar-cont">
@@ -129,16 +112,12 @@ const Filterbar = ({
           className={`filterbar-button year-filter-button ${
             selectedYear !== "All" ? "active" : ""
           }`}
-          onClick={() => {
-            console.log(
-              "Year dropdown button clicked, current state:",
-              showYearDropdown
-            );
-            setShowYearDropdown(!showYearDropdown);
-          }}
+          onClick={() => setShowYearDropdown(!showYearDropdown)}
         >
           {selectedYear === "All" ? "All Years" : selectedYear}
-          <span className="dropdown-arrow">▼</span>
+          <span className="dropdown-arrow">
+            <IoMdArrowDropdown />
+          </span>
         </button>
         {showYearDropdown && (
           <div className="year-dropdown">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import WatchedMovies from "../../components/Watchedmovies/WatchedMovies";
 import "./Movieshelf.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
@@ -173,12 +173,10 @@ const Movieshelf = () => {
     );
     setMovieDetails(updated);
   };
-
   // Add movie to watchlater
   const handleAddtoWatchlater = async (movie) => {
     try {
       const result = await addMovieToDB(movie);
-      console.log("Added to watchlater:", result);
       setWatchedMovies((prev) => [...prev, result]);
     } catch (error) {
       console.error("Error adding to watchlater:", error);
@@ -194,9 +192,10 @@ const Movieshelf = () => {
     }
   };
 
-  const handleYearFilter = (year) => {
+  const handleYearFilter = useCallback((year) => {
     setYearFilter(year);
-  };
+  }, []);
+
   const sortMovies = (movies) => {
     let filteredMovies = movies;
 
@@ -207,7 +206,7 @@ const Movieshelf = () => {
           // For All Movies, filter by release date year
           if (movie.release_date) {
             const releaseYear = new Date(movie.release_date).getFullYear();
-            return releaseYear === yearFilter;
+            return releaseYear === parseInt(yearFilter);
           }
         } else if (filterQuery === "Watched") {
           // For Watched movies, filter by watch date years
@@ -220,7 +219,7 @@ const Movieshelf = () => {
             return watchDates.some((date) => {
               if (date) {
                 const [month, day, year] = date.split(".");
-                return parseInt(year) === yearFilter;
+                return parseInt(year) === parseInt(yearFilter);
               }
               return false;
             });
@@ -228,7 +227,8 @@ const Movieshelf = () => {
         } else if (filterQuery === "Watch Later") {
           // For Watch Later, filter by creation date year
           if (movie.createdAt) {
-            return new Date(movie.createdAt).getFullYear() === yearFilter;
+            const createdYear = new Date(movie.createdAt).getFullYear();
+            return createdYear === parseInt(yearFilter);
           }
         }
         return false;
