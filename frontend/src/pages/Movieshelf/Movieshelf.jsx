@@ -20,7 +20,6 @@ import Moviedetails from "../../components/Moviedetails/Moviedetails";
 import Watchlater from "../../components/Watchlater/Watchlater";
 import Filterbar from "../../components/Filterbar/Filterbar";
 
-// Category options for filtering movies
 const categories = [
   { title: "All Movies" },
   { title: "Watched" },
@@ -28,7 +27,6 @@ const categories = [
 ];
 
 const Movieshelf = () => {
-  // --- State ---
   const [searchQuery, setSearchQuery] = useState("");
   const [filterQuery, setFilterQuery] = useState(categories[0].title);
   const [allMovies, setAllMovies] = useState([]);
@@ -42,13 +40,10 @@ const Movieshelf = () => {
   const [yearSort, setYearSort] = useState("desc");
   const [titleSort, setTitleSort] = useState("none");
   const [yearFilter, setYearFilter] = useState("All");
-  // --- Effects ---
-  // Fetch watched movies on mount
   useEffect(() => {
     getWatchedMovies().then(setWatchedMovies);
   }, []);
 
-  // Fetch movie details when a movie is selected
   useEffect(() => {
     if (!selectedMovieId) return;
     setDetailsLoading(true);
@@ -68,7 +63,6 @@ const Movieshelf = () => {
       .finally(() => setDetailsLoading(false));
   }, [selectedMovieId, watchedMovies]);
 
-  // Fetch movies based on filter
   useEffect(() => {
     setLoading(true);
     if (filterQuery === "Watched") {
@@ -78,7 +72,6 @@ const Movieshelf = () => {
           setMovies(watchedMovies);
         })
         .catch((err) => {
-          console.error(err);
           setError("Failed to load movies...");
         })
         .finally(() => setLoading(false));
@@ -100,7 +93,6 @@ const Movieshelf = () => {
           setMovies(watchLaterMovies);
         })
         .catch((err) => {
-          console.error(err);
           setError("Failed to load movies...");
         })
         .finally(() => setLoading(false));
@@ -108,11 +100,13 @@ const Movieshelf = () => {
     setSearchQuery("");
   }, [filterQuery]);
 
-  // --- Handlers ---
-
   const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
+
+    if (value.trim() !== "") {
+      setYearFilter("All");
+    }
 
     if (filterQuery === "Watched" || filterQuery === "Watch Later") {
       if (value.trim() === "") {
@@ -178,9 +172,7 @@ const Movieshelf = () => {
     try {
       const result = await addMovieToDB(movie);
       setWatchedMovies((prev) => [...prev, result]);
-    } catch (error) {
-      console.error("Error adding to watchlater:", error);
-    }
+    } catch (error) {}
   };
   const handleSort = (type, order) => {
     if (type === "year") {
@@ -195,27 +187,21 @@ const Movieshelf = () => {
   const handleYearFilter = useCallback((year) => {
     setYearFilter(year);
   }, []);
-
   const sortMovies = (movies) => {
     let filteredMovies = movies;
 
-    // Year filtering based on current view
     if (yearFilter !== "All") {
       filteredMovies = movies.filter((movie) => {
         if (filterQuery === "All Movies") {
-          // For All Movies, filter by release date year
           if (movie.release_date) {
             const releaseYear = new Date(movie.release_date).getFullYear();
             return releaseYear === parseInt(yearFilter);
           }
         } else if (filterQuery === "Watched") {
-          // For Watched movies, filter by watch date years
           if (movie.userStats?.watchDate) {
             const watchDates = Array.isArray(movie.userStats.watchDate)
               ? movie.userStats.watchDate
               : [movie.userStats.watchDate];
-
-            // Check if any watch date matches the selected year
             return watchDates.some((date) => {
               if (date) {
                 const [month, day, year] = date.split(".");
@@ -225,7 +211,6 @@ const Movieshelf = () => {
             });
           }
         } else if (filterQuery === "Watch Later") {
-          // For Watch Later, filter by creation date year
           if (movie.createdAt) {
             const createdYear = new Date(movie.createdAt).getFullYear();
             return createdYear === parseInt(yearFilter);
@@ -279,7 +264,6 @@ const Movieshelf = () => {
     return filteredMovies;
   };
 
-  // --- Render ---
   return (
     <div className="movie-page">
       <div className="movieshelf-cont">
@@ -298,6 +282,7 @@ const Movieshelf = () => {
             onSort={handleSort}
             yearSort={yearSort}
             titleSort={titleSort}
+            yearFilter={yearFilter}
             currentView={filterQuery}
             movies={
               filterQuery === "Watched"
