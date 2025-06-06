@@ -41,6 +41,7 @@ const Movieshelf = () => {
   const [watchedMovies, setWatchedMovies] = useState([]);
   const [yearSort, setYearSort] = useState("desc");
   const [titleSort, setTitleSort] = useState("none");
+  const [yearFilter, setYearFilter] = useState("All");
   // --- Effects ---
   // Fetch watched movies on mount
   useEffect(() => {
@@ -193,9 +194,48 @@ const Movieshelf = () => {
     }
   };
 
+  const handleYearFilter = (year) => {
+    setYearFilter(year);
+  };
   const sortMovies = (movies) => {
+    let filteredMovies = movies;
+
+    // Year filtering based on current view
+    if (yearFilter !== "All") {
+      filteredMovies = movies.filter((movie) => {
+        if (filterQuery === "All Movies") {
+          // For All Movies, filter by release date year
+          if (movie.release_date) {
+            const releaseYear = new Date(movie.release_date).getFullYear();
+            return releaseYear === yearFilter;
+          }
+        } else if (filterQuery === "Watched") {
+          // For Watched movies, filter by watch date years
+          if (movie.userStats?.watchDate) {
+            const watchDates = Array.isArray(movie.userStats.watchDate)
+              ? movie.userStats.watchDate
+              : [movie.userStats.watchDate];
+
+            // Check if any watch date matches the selected year
+            return watchDates.some((date) => {
+              if (date) {
+                const [month, day, year] = date.split(".");
+                return parseInt(year) === yearFilter;
+              }
+              return false;
+            });
+          }
+        } else if (filterQuery === "Watch Later") {
+          // For Watch Later, filter by creation date year
+          if (movie.createdAt) {
+            return new Date(movie.createdAt).getFullYear() === yearFilter;
+          }
+        }
+        return false;
+      });
+    }
     if (yearSort !== "none") {
-      return [...movies].sort((a, b) => {
+      return [...filteredMovies].sort((a, b) => {
         let dateA, dateB;
 
         if (filterQuery === "Watch Later") {
@@ -226,9 +266,8 @@ const Movieshelf = () => {
         return yearSort === "asc" ? dateA - dateB : dateB - dateA;
       });
     }
-
     if (titleSort !== "none") {
-      return [...movies].sort((a, b) => {
+      return [...filteredMovies].sort((a, b) => {
         const titleA = a.title.toLowerCase();
         const titleB = b.title.toLowerCase();
         return titleSort === "asc"
@@ -237,7 +276,7 @@ const Movieshelf = () => {
       });
     }
 
-    return movies;
+    return filteredMovies;
   };
 
   // --- Render ---
@@ -254,11 +293,20 @@ const Movieshelf = () => {
             categories={categories}
             onCategoryChange={handleCategoryChange}
             selected={filterQuery}
-          />
+          />{" "}
           <Filterbar
             onSort={handleSort}
             yearSort={yearSort}
             titleSort={titleSort}
+            currentView={filterQuery}
+            movies={
+              filterQuery === "Watched"
+                ? watchedMovies.filter((movie) => movie.isWatched)
+                : filterQuery === "Watch Later"
+                ? watchedMovies.filter((movie) => !movie.isWatched)
+                : movies
+            }
+            onYearFilter={handleYearFilter}
           />
         </div>
         {selectedMovieId ? (

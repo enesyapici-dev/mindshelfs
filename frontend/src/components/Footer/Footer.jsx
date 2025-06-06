@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./Footer.css";
 
 const Footer = ({ pageName }) => {
-  const [language, setLanguage] = useState("ENG"); // ENG or TR
-  const [theme, setTheme] = useState("light"); // light or dark
+  const [language, setLanguage] = useState("ENG");
+  const [theme, setTheme] = useState("light");
 
   const handleLanguageToggle = () => {
     setLanguage((prev) => (prev === "ENG" ? "TR" : "ENG"));
