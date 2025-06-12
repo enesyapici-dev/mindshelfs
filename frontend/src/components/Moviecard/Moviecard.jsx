@@ -52,27 +52,18 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
       <div className="movie-card-content">
         {!homeCard ? (
           <div className="movie-card-details">
-            <div className="moviecard-left-cont">
-              <h2 className="movie-card-title">{title}</h2>
-              <h3 className="movie-card-director">
-                {isWatched ? director : ""}
-              </h3>
-              <div className={movie.userStats ? "" : "movie-card-row"}>
-                <p className="movie-card-meta">
-                  <span className="movie-card-year">{year}</span>
-                  {isWatched && (
-                    <>
-                      <span className="movie-card-separator"> • </span>
-                      <span className="movie-card-duration">
-                        {duration} min
-                      </span>
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
-            <div className="moviecard-right-cont">
-              {" "}
+            <h2 className="movie-card-title">{title}</h2>
+            <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
+            <div className={movie.userStats ? "" : "movie-card-row"}>
+              <p className="movie-card-meta">
+                <span className="movie-card-year">{year}</span>
+                {isWatched && (
+                  <>
+                    <span className="movie-card-separator"> • </span>
+                    <span className="movie-card-duration">{duration} min</span>
+                  </>
+                )}
+              </p>
               <p className="movie-card-rating">
                 <span>★ </span>
                 {rating}
@@ -87,14 +78,18 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
         {isWatchLater ? (
           <div className="watchlater-card-details">
             <span className="watchlater-card-added-date">
-              Added: {formatCreatedDate(movie.createdAt)}
+              <span>Added</span>{" "}
+              <span>{formatCreatedDate(movie.createdAt)}</span>
             </span>
           </div>
         ) : movie.userStats ? (
           <div className="watched-card-details">
             <span className="watched-card-user-rating">
-              Your Rating: <span className="star">★</span>
-              {movie.userStats.userRating}/10
+              <span>Your Rating</span>
+              <span>
+                <span className="star">★</span>
+                {movie.userStats.userRating}/10
+              </span>
             </span>
             <span className="watched-card-date">{getLatestWatchDate()}</span>
           </div>

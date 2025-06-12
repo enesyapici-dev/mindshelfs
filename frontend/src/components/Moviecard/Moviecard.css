@@ -35,9 +35,9 @@
 .movie-card-details {
   width: 100%;
   display: flex;
-
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
 }
 .movie-card-title {
   font-size: 1.5rem;
@@ -47,16 +47,20 @@
 }
 .movie-card-director {
   margin: 0;
-  font-size: 1.1rem;
+  margin-top: 0.1rem;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
   color: var(--color-dark);
   font-weight: 400;
 }
 .movie-card-meta {
   margin: 0;
+  margin-top: 0.3rem;
   font-size: 1rem;
-
   display: flex;
   align-items: center;
+
+  width: 200px;
 }
 
 .movie-card .movie-card-rating {
@@ -93,9 +97,7 @@
 .movie-card-button:hover {
   color: var(--color-red);
 }
-.movie-card-director {
-  color: var(--color-dark);
-}
+
 .watched-card-details {
   display: flex;
   flex-direction: column;
@@ -105,15 +107,31 @@
   justify-content: center;
 }
 .watched-card-user-rating {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  justify-content: center;
+  align-items: center;
+}
+.watched-card-user-rating > span:first-child {
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-dark);
+  width: 120px;
+  text-align: center;
+}
+.watched-card-user-rating > span:last-child {
+  font-weight: bold;
+  border-bottom: 1px solid var(--color-dark);
+  width: 120px;
+  text-align: center;
 }
 .watched-card-user-rating .star {
   color: goldenrod;
   font-size: 1.5rem;
 }
 .movie-card-row {
-  height: 50px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -133,4 +151,22 @@
   color: var(--color-dark);
   font-size: 1rem;
   font-weight: 500;
+}
+.watchlater-card-added-date span:first-child {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100px;
+  border-bottom: 1px solid var(--color-dark);
+}
+.watchlater-card-added-date span:last-child {
+  display: inline-block;
+  font-size: 1.2rem;
+}
+.movie-card-separator {
+  padding: 0 0.2rem;
+}
+.watched-card-date {
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
 }
