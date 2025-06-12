@@ -224,7 +224,7 @@ const Moviedetails = ({
       await handleAddToWatched(createDbMovieObject(movie));
     }
   };
-  console.log(movie);
+
   return (
     <div className="movie-details-cont">
       <button className="movie-details-back-btn" onClick={onBack}>

@@ -143,8 +143,8 @@ const Movieshelf = () => {
 
   // Add movie to watched
   const handleAddToWatched = async (movie) => {
-    await addMovieToDB(movie);
-    setWatchedMovies((prev) => [...prev, movie]);
+    const result = await addMovieToDB(movie);
+    setWatchedMovies((prev) => [...prev, result]);
   };
 
   // Delete movie from watched
@@ -161,6 +161,7 @@ const Movieshelf = () => {
 
   // Update watched movie
   const handleUpdateWatched = async (updatedMovie) => {
+    console.log(updatedMovie);
     const updated = await updateMovieInDB(updatedMovie);
     setWatchedMovies((prev) =>
       prev.map((movie) => (movie._id === updated._id ? updated : movie))
