@@ -109,14 +109,6 @@ const Movieshelf = () => {
     }
 
     if (filterQuery === "Watched" || filterQuery === "Watch Later") {
-      if (value.trim() === "") {
-        getWatchedMovies().then(setWatchedMovies);
-      } else {
-        const filtered = watchedMovies.filter((movie) =>
-          movie.title.toLowerCase().includes(value.trim().toLowerCase())
-        );
-        setWatchedMovies(filtered);
-      }
     } else if (filterQuery === "All Movies") {
       if (value.trim() === "") {
         setMovies(allMovies);
@@ -320,14 +312,26 @@ const Movieshelf = () => {
         ) : filterQuery === "Watched" ? (
           <WatchedMovies
             movies={sortMovies(
-              watchedMovies.filter((movie) => movie.isWatched)
+              watchedMovies
+                .filter((movie) => movie.isWatched)
+                .filter((movie) =>
+                  movie.title
+                    .toLowerCase()
+                    .includes(searchQuery.trim().toLowerCase())
+                )
             )}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />
         ) : filterQuery === "Watch Later" ? (
           <Watchlater
             movies={sortMovies(
-              watchedMovies.filter((movie) => !movie.isWatched)
+              watchedMovies
+                .filter((movie) => !movie.isWatched)
+                .filter((movie) =>
+                  movie.title
+                    .toLowerCase()
+                    .includes(searchQuery.trim().toLowerCase())
+                )
             )}
             onMovieClick={(movieId) => setSelectedMovieId(movieId)}
           />

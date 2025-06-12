@@ -52,18 +52,27 @@ const Moviecard = ({ movie, cardType, onClick, homeCard }) => {
       <div className="movie-card-content">
         {!homeCard ? (
           <div className="movie-card-details">
-            <h2 className="movie-card-title">{title}</h2>
-            <h3 className="movie-card-director">{isWatched ? director : ""}</h3>
-            <div className={movie.userStats ? "" : "movie-card-row"}>
-              <p className="movie-card-meta">
-                <span className="movie-card-year">{year}</span>
-                {isWatched && (
-                  <>
-                    <span className="movie-card-separator"> • </span>
-                    <span className="movie-card-duration">{duration} min</span>
-                  </>
-                )}
-              </p>
+            <div className="moviecard-left-cont">
+              <h2 className="movie-card-title">{title}</h2>
+              <h3 className="movie-card-director">
+                {isWatched ? director : ""}
+              </h3>
+              <div className={movie.userStats ? "" : "movie-card-row"}>
+                <p className="movie-card-meta">
+                  <span className="movie-card-year">{year}</span>
+                  {isWatched && (
+                    <>
+                      <span className="movie-card-separator"> • </span>
+                      <span className="movie-card-duration">
+                        {duration} min
+                      </span>
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+            <div className="moviecard-right-cont">
+              {" "}
               <p className="movie-card-rating">
                 <span>★ </span>
                 {rating}
