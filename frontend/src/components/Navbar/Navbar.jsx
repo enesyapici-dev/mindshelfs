@@ -13,9 +13,23 @@ const Navbar = () => {
           </Link>
         </h1>
 
-        <Link className="movie-details-button">
-          <FaRegUser />
-        </Link>
+        <ul className="nav-list">
+          <li className="nav-list-item">
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+          </li>
+          <li className="nav-list-item">
+            <Link to="/movieshelf" className="nav-link">
+              Movieshelfs
+            </Link>
+          </li>
+          <li className="nav-list-item">
+            <Link to="/bookshelf" className="nav-link">
+              Bookhelfs
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );

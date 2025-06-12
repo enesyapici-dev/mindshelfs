@@ -16,7 +16,6 @@ function App() {
   else if (location.pathname === "/movieshelf") pageName = "Movieshelf";
   return (
     <>
-      <Sidebar />
       <Navbar />
       <main className="main-content">
         <Routes>

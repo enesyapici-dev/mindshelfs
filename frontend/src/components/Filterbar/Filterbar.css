@@ -30,8 +30,8 @@
 }
 .filterbar-button span {
   font-size: 1.5rem;
-  line-height: 1; /* Line-height'ı normalize et */
-  display: flex; /* İkonun da flex olması için */
+  line-height: 1;
+  display: flex;
   align-items: center;
 }
 .filterbar-button:last-child {

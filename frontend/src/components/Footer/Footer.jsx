@@ -19,33 +19,6 @@ const Footer = ({ pageName }) => {
         <div className="footer-header">
           <h1>{pageName}</h1>
         </div>{" "}
-        <div className="footer-controls">
-          <div className="toggle-container">
-            <div
-              className={`toggle-switch ${language === "TR" ? "active" : ""}`}
-              onClick={handleLanguageToggle}
-            >
-              <div className="toggle-slider">
-                <span className="slider-icon">
-                  {language === "ENG" ? "🇺🇸" : "🇹🇷"}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="toggle-container">
-            <div
-              className={`toggle-switch ${theme === "dark" ? "active" : ""}`}
-              onClick={handleThemeToggle}
-            >
-              <div className="toggle-slider">
-                <span className="slider-icon">
-                  {theme === "light" ? "☀️" : "🌙"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
