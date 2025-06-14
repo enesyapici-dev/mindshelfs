@@ -11,7 +11,7 @@ const Bookcard = ({ book }) => {
             className="book-card-poster"
             src={
               info.imageLinks?.thumbnail ||
-              "https://via.placeholder.com/128x193?text=No+Cover"
+              "https://placehold.co/128x193?text=No+Cover"
             }
             alt={info.title}
           />
