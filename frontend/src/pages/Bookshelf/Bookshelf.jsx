@@ -5,6 +5,7 @@ import Searchbar from "../../components/Searchbar/Searchbar";
 import "./Bookshelf.css";
 import { getPopularBooks, searchBooks } from "../../services/api";
 import { useState } from "react";
+import Loading from "../../components/Loading/Loading";
 
 const categories = [
   { title: "All Books" },
@@ -60,11 +61,17 @@ const Bookshelf = () => {
           onchange={handleChange}
           value={searchQuery}
         />
-        <ShelfFilter categories={categories} selected={"All Books"} />
+        <ShelfFilter categories={categories} selected={filterQuery} />
         {loading ? (
-          <p>Loading...</p>
+          <Loading />
         ) : error ? (
           <p>{error}</p>
+        ) : filterQuery === "Read" ? (
+          <p>ReadBooks component will be rendered here</p>
+        ) : filterQuery === "Read Later" ? (
+          <p>ReadLaterBooks component will be rendered here</p>
+        ) : filterQuery === "My Books" ? (
+          <p>MyBooks component will be rendered here</p>
         ) : (
           <Allbooks books={books} />
         )}
