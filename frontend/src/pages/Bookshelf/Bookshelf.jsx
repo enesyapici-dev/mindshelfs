@@ -6,6 +6,9 @@ import "./Bookshelf.css";
 import { getPopularBooks, searchBooks } from "../../services/api";
 import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
+import Readlater from "../../components/ReadLater/Readlater";
+import Readbooks from "../../components/ReadBooks/Readbooks";
+import Mybooks from "../../components/Mybooks/Mybooks";
 
 const categories = [
   { title: "All Books" },
@@ -52,7 +55,10 @@ const Bookshelf = () => {
       }
     }
   };
-
+  const handleCategoryChange = (category) => {
+    setFilterQuery(category);
+    setSearchQuery("");
+  };
   return (
     <div className="books-page">
       <div className="bookshelf-cont">
@@ -61,17 +67,21 @@ const Bookshelf = () => {
           onchange={handleChange}
           value={searchQuery}
         />
-        <ShelfFilter categories={categories} selected={filterQuery} />
+        <ShelfFilter
+          categories={categories}
+          selected={filterQuery}
+          onCategoryChange={handleCategoryChange}
+        />
         {loading ? (
           <Loading />
         ) : error ? (
           <p>{error}</p>
         ) : filterQuery === "Read" ? (
-          <p>ReadBooks component will be rendered here</p>
+          <Readbooks books={books} />
         ) : filterQuery === "Read Later" ? (
-          <p>ReadLaterBooks component will be rendered here</p>
+          <Readlater books={books} />
         ) : filterQuery === "My Books" ? (
-          <p>MyBooks component will be rendered here</p>
+          <Mybooks books={books} />
         ) : (
           <Allbooks books={books} />
         )}

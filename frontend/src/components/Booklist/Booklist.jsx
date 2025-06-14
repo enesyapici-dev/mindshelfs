@@ -7,7 +7,7 @@ const Booklist = ({ books, homeCard }) => {
     <div className={!homeCard ? "book-list" : "book-list home-homelist"}>
       {books.map((book) => (
         <div key={book.id}>
-          <Bookcard key={book.key || book.cover_i || book.title} book={book} />
+          <Bookcard book={book} />
         </div>
       ))}
     </div>
