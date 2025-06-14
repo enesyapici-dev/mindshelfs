@@ -40,3 +40,17 @@ export const getPopularBooks = async () => {
     return [];
   }
 };
+export const searchBooks = async (query) => {
+  try {
+    const response = await fetch(
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
+        query
+      )}&maxResults=20`
+    );
+    const data = await response.json();
+    return data.items || [];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
