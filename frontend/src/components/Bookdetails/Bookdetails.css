@@ -1,0 +1,310 @@
+.book-details-cont {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  height: calc(100vh - 345px);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark) transparent;
+  border: 2px solid var(--color-dark);
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.book-details-back-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: none;
+  border: none;
+  color: var(--color-dark);
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 1rem;
+  align-self: flex-start;
+  transition: color 0.2s;
+  z-index: 10;
+}
+.book-details-back-btn:hover {
+  color: var(--color-red);
+}
+
+.book-details-global {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 2px solid var(--color-dark);
+  padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+  gap: 1.2rem;
+}
+
+.book-details-poster {
+  width: 10vw;
+  min-width: 100px;
+  max-width: 160px;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #eee;
+  flex-shrink: 0;
+}
+
+.book-head-details {
+  position: relative;
+  padding: 1rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.book-head-details h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem 0;
+  color: var(--color-dark);
+}
+
+.book-head-details h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 0.2rem 0;
+}
+
+.details-rating {
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  position: absolute;
+  font-size: 1.8rem !important;
+  color: var(--color-red);
+  font-weight: 600;
+  margin: 0.2rem 0 0 0;
+}
+.details-rating span:last-child {
+  color: var(--color-dark);
+}
+.book-head-details p {
+  margin: 0.1rem 0;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+.book-details-user {
+  min-height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem;
+  background: #fff;
+  position: relative;
+  background-color: var(--color-light-gray);
+  height: 100%;
+}
+
+.book-details-button {
+  color: var(--color-dark);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  border: 2px solid var(--color-dark);
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(230, 57, 70, 0.08);
+}
+.book-details-button:hover {
+  background-color: #dedede;
+}
+
+.book-card-user-rating {
+  color: var(--color-dark);
+  font-weight: 400;
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--color-dark);
+  width: 200px;
+  text-align: center;
+  padding: 1rem;
+}
+.book-card-user-rating span {
+  font-size: 1.4rem;
+}
+
+.book-card-read-date {
+  color: var(--color-dark);
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-dark);
+  width: 200px;
+  text-align: center;
+}
+.book-details-user-cont {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.book-details-user-stats {
+  display: flex;
+  width: 420px;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+.user-stats-header {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  width: 300px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-dark);
+}
+.book-buttons-cont {
+  display: flex;
+  gap: 1rem;
+}
+.warning-toast {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--color-light-gray);
+  color: var(--color-red);
+  font-size: 1.2rem;
+  font-weight: light;
+  padding: 0.7rem 0.8rem;
+  margin: 1rem;
+  border-radius: 5px;
+  animation: normal;
+  border: 2px solid var(--color-red);
+  animation: toast-bar-dissapier 0.1s linear forwards;
+  animation-delay: 2s;
+}
+.warning-toast::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 0;
+  background: var(--color-red);
+  animation: toast-bar-grow 2s linear forwards;
+}
+
+@keyframes toast-bar-grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes toast-bar-dissapier {
+  from {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0%;
+  }
+}
+.delete-q {
+  font-size: 1.3rem;
+}
+.delete-yes {
+  color: var(--color-red);
+  background-color: transparent;
+  border: 2px solid var(--color-red);
+  font-weight: bold;
+}
+.delete-yes:hover {
+  color: var(--color-light-gray);
+  background-color: var(--color-red);
+}
+.user-stats-buttons {
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+}
+.stats-button {
+  border: 2px solid var(--color-dark);
+  background-color: transparent;
+  color: var(--color-dark);
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+.stats-button:last-child {
+  border: 2px solid var(--color-red);
+  background-color: transparent;
+  color: var(--color-red);
+}
+.stats-button:last-child:hover {
+  border: 2px solid var(--color-light-gray);
+  background-color: var(--color-red);
+  color: var(--color-light-gray);
+}
+.book-details-button.add-readlater-button {
+  border-color: var(--color-red);
+  color: var(--color-red);
+}
+.book-details-button.add-readlater-button:hover {
+  background-color: #dedede;
+}
+.book-details-button.remove-button {
+  background-color: var(--color-red);
+  border-color: var(--color-red);
+  color: var(--color-light-gray);
+}
+
+.book-details-button.remove-button:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+.user-stats-edit-headers {
+  font-size: 1.2rem;
+  margin: 1rem 0 0.5rem 0;
+  border-bottom: 1px solid var(--color-dark);
+}
+.user-stats-edit-stars {
+  font-size: 1.2rem;
+  width: 300px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-dark);
+}
+.user-stats-edit-date-input {
+  width: 250px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background-color: var(--color-light-gray);
+  border: 2px solid var(--color-dark);
+  padding: 0.2rem;
+  caret-color: transparent;
+  user-select: none;
+}
+
+.user-stats-edit-date-input:focus {
+  outline: none;
+}
+.user-stats-edit-date-input::selection {
+  background: transparent;
+}
+
+.user-stats-edit-date-input::-moz-selection {
+  background: transparent;
+}

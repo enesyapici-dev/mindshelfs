@@ -13,8 +13,8 @@ const Bookdetails = ({
   handleDeleteRead,
   handleUpdateRead,
   handleAddToReadLater,
-  readBooks,
   handleDeleteReadLater,
+  dbBooks,
 }) => {
   const [userRating, setUserRating] = useState(0);
   const [showRatingWarning, setShowRatingWarning] = useState(false);
@@ -39,26 +39,39 @@ const Bookdetails = ({
       } else {
         setEditDate("");
       }
+    } else {
+      setUserRating(0);
+      setEditRating(0);
+      setEditDate("");
     }
   }, [book]);
 
   if (loading) return <Loading />;
   if (!book) return null;
 
-  const info = book.volumeInfo || book; // Google API veya DB objesi
-  const title = info.title;
-  const authors = info.authors
-    ? Array.isArray(info.authors)
-      ? info.authors.join(", ")
-      : info.authors
-    : "Unknown Author";
-  const publishedDate = info.publishedDate || book.published_date || "";
+  const info = book.volumeInfo || book;
+  const title = info.title || book.title || "";
+  let authors = info.authors || book.author || "Unknown Author";
+  if (Array.isArray(authors)) authors = authors.join(", ");
+  const publishedDate = (info.publishedDate || book.published_date || "").slice(
+    0,
+    4
+  );
   const cover =
-    info.imageLinks?.thumbnail ||
+    (info.imageLinks && info.imageLinks.thumbnail) ||
     book.cover_image_url ||
     "https://placehold.co/128x193?text=No+Cover";
-  const isRead = book.isRead;
-  const userStats = book.userStats || {};
+
+  // dbBook her zaman en güncel state'i temsil eder
+  const dbBook = dbBooks?.find(
+    (b) =>
+      b.google_books_id === book.id ||
+      b.google_books_id === book.google_books_id ||
+      b._id === book._id
+  );
+  const isRead = dbBook ? dbBook.isRead : book.isRead;
+  const isReadLater = dbBook ? !dbBook.isRead : false;
+  const userStats = dbBook ? dbBook.userStats || {} : book.userStats || {};
 
   const formatDate = (dateStr) => {
     if (!dateStr) return "";
@@ -89,7 +102,39 @@ const Bookdetails = ({
     ? [userStats.readDate]
     : [];
 
-  // DB'ye ekleme/güncelleme fonksiyonları props ile gelmeli
+  const handleMarkAsRead = async () => {
+    if (userRating === 0) {
+      setShowRatingWarning(true);
+      setTimeout(() => setShowRatingWarning(false), 2000);
+      return;
+    }
+    if (dbBook && !dbBook.isRead) {
+      const updatedBook = {
+        ...dbBook,
+        isRead: true,
+        userStats: {
+          ...dbBook.userStats,
+          userRating: userRating,
+          readDate: [new Date().toISOString().split("T")[0]],
+        },
+      };
+      await handleUpdateRead(updatedBook);
+    } else if (!dbBook) {
+      await handleAddToRead(book, userRating);
+    }
+  };
+
+  const handleAddToReadLaterClick = async () => {
+    if (!dbBook) {
+      await handleAddToReadLater(book);
+    }
+  };
+
+  const handleRemoveFromReadLater = async () => {
+    if (dbBook && !dbBook.isRead) {
+      await handleDeleteReadLater(dbBook._id);
+    }
+  };
 
   return (
     <div className="book-details-cont">
@@ -137,18 +182,17 @@ const Bookdetails = ({
             <div className="book-buttons-cont user-stats-buttons">
               <button
                 className="book-details-button stats-button"
-                onClick={() => {
-                  // Save işlemi
-                  if (handleUpdateRead) {
+                onClick={async () => {
+                  if (dbBook) {
                     const updatedBook = {
-                      ...book,
+                      ...dbBook,
                       userStats: {
-                        ...userStats,
+                        ...dbBook.userStats,
                         userRating: editRating,
                         readDate: [editDate],
                       },
                     };
-                    handleUpdateRead(updatedBook);
+                    await handleUpdateRead(updatedBook);
                     setEditMode(false);
                   }
                 }}
@@ -178,7 +222,9 @@ const Bookdetails = ({
                 </button>
                 <button
                   className="book-details-button delete-yes"
-                  onClick={() => handleDeleteRead && handleDeleteRead(book._id)}
+                  onClick={async () => {
+                    await handleDeleteRead(dbBook._id);
+                  }}
                 >
                   Yes
                 </button>
@@ -193,11 +239,15 @@ const Bookdetails = ({
                   {userStats.userRating}/10
                 </span>
                 <span className="book-card-read-date">
-                  {readDates.map((date, i) => (
-                    <span key={i}>
-                      {i + 1} • {formatDate(date)}
-                    </span>
-                  ))}
+                  {Array.isArray(userStats.readDate)
+                    ? userStats.readDate.map((date, i) => (
+                        <span key={i}>
+                          {i + 1} • {formatDate(date)}
+                        </span>
+                      ))
+                    : userStats.readDate && (
+                        <span>1 • {formatDate(userStats.readDate)}</span>
+                      )}
                 </span>
               </div>
               <div className="book-buttons-cont user-stats-buttons">
@@ -222,25 +272,25 @@ const Bookdetails = ({
             <div className="book-buttons-cont">
               <button
                 className="book-details-button"
-                onClick={() => {
-                  if (userRating === 0) {
-                    setShowRatingWarning(true);
-                    setTimeout(() => setShowRatingWarning(false), 2000);
-                    return;
-                  }
-                  handleAddToRead && handleAddToRead(book, userRating);
-                }}
+                onClick={handleMarkAsRead}
               >
                 Mark as Read
               </button>
-              <button
-                className="book-details-button add-readlater-button"
-                onClick={() =>
-                  handleAddToReadLater && handleAddToReadLater(book)
-                }
-              >
-                Add to Read Later
-              </button>
+              {isReadLater ? (
+                <button
+                  className="book-details-button remove-button"
+                  onClick={handleRemoveFromReadLater}
+                >
+                  Remove from Read Later
+                </button>
+              ) : (
+                <button
+                  className="book-details-button add-readlater-button"
+                  onClick={handleAddToReadLaterClick}
+                >
+                  Add to Read Later
+                </button>
+              )}
             </div>
             {showRatingWarning && (
               <span className="warning-toast">Please rate the book!</span>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Allbooks from "../../components/Allbooks/Allbooks";
 import ShelfFilter from "../../components/ShelfFilter/ShelfFilter";
 import Searchbar from "../../components/Searchbar/Searchbar";
@@ -10,7 +10,6 @@ import {
   updateBookInDB,
 } from "../../services/backend";
 import { getPopularBooks, searchBooks } from "../../services/api";
-import { useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import Readlater from "../../components/ReadLater/Readlater";
 import Readbooks from "../../components/ReadBooks/Readbooks";
@@ -32,12 +31,12 @@ const Bookshelf = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBookId, setSelectedBookId] = useState(null);
+  const [bookDetails, setBookDetails] = useState(null);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-
     if (filterQuery === "All Books") {
       getPopularBooks()
         .then((popularBooks) => {
@@ -61,14 +60,25 @@ const Bookshelf = () => {
         .catch(() => setError("Failed to load your books..."))
         .finally(() => setLoading(false));
     }
-
     setSearchQuery("");
   }, [filterQuery]);
+
+  useEffect(() => {
+    if (!selectedBookId) return setBookDetails(null);
+    const dbBook = dbBooks.find(
+      (b) => b._id === selectedBookId || b.google_books_id === selectedBookId
+    );
+    if (dbBook) {
+      setBookDetails(dbBook);
+    } else {
+      const apiBook = books.find((b) => b.id === selectedBookId);
+      setBookDetails(apiBook || null);
+    }
+  }, [selectedBookId, dbBooks, books]);
 
   const handleChange = async (e) => {
     const value = e.target.value;
     setSearchQuery(value);
-
     if (value.trim() === "") {
       if (filterQuery === "All Books") {
         setBooks(googleBooks);
@@ -92,7 +102,6 @@ const Bookshelf = () => {
         }
       } else {
         let filteredBooks = [];
-
         if (filterQuery === "Read") {
           filteredBooks = dbBooks.filter(
             (book) =>
@@ -110,29 +119,36 @@ const Bookshelf = () => {
             book.title.toLowerCase().includes(value.toLowerCase())
           );
         }
-
         setBooks(filteredBooks);
       }
     }
   };
 
-  const handleAddToRead = async (book) => {
+  const handleAddToRead = async (book, userRating) => {
     const bookForDB = {
       google_books_id: book.id,
-      title: book.volumeInfo.title,
-      cover_image_url: book.volumeInfo.imageLinks?.thumbnail || "",
-      author: book.volumeInfo.authors?.join(", ") || "Unknown",
-      published_date: book.volumeInfo.publishedDate || "",
+      title: book.volumeInfo?.title || book.title,
+      cover_image_url:
+        book.volumeInfo?.imageLinks?.thumbnail || book.cover_image_url || "",
+      author: book.volumeInfo?.authors?.join(", ") || book.author || "Unknown",
+      published_date:
+        book.volumeInfo?.publishedDate || book.published_date || "",
       isRead: true,
       userStats: {
-        userRating: 8,
-        watchDate: [new Date().toISOString().split("T")[0]],
+        userRating: userRating,
+        readDate: [new Date().toISOString().split("T")[0]],
       },
     };
-
     try {
       const result = await addBookToDB(bookForDB);
-      setDbBooks((prev) => [...prev, result]);
+      setDbBooks((prev) => {
+        const filtered = prev.filter(
+          (b) =>
+            b.google_books_id !== result.google_books_id && b._id !== result._id
+        );
+        return [...filtered, result];
+      });
+      setBookDetails(result);
     } catch (error) {
       setError("Failed to add book");
     }
@@ -141,20 +157,28 @@ const Bookshelf = () => {
   const handleAddToReadLater = async (book) => {
     const bookForDB = {
       google_books_id: book.id,
-      title: book.volumeInfo.title,
-      cover_image_url: book.volumeInfo.imageLinks?.thumbnail || "",
-      author: book.volumeInfo.authors?.join(", ") || "Unknown",
-      published_date: book.volumeInfo.publishedDate || "",
+      title: book.volumeInfo?.title || book.title,
+      cover_image_url:
+        book.volumeInfo?.imageLinks?.thumbnail || book.cover_image_url || "",
+      author: book.volumeInfo?.authors?.join(", ") || book.author || "Unknown",
+      published_date:
+        book.volumeInfo?.publishedDate || book.published_date || "",
       isRead: false,
       userStats: {
         userRating: null,
-        watchDate: null,
+        readDate: null,
       },
     };
-
     try {
       const result = await addBookToDB(bookForDB);
-      setDbBooks((prev) => [...prev, result]);
+      setDbBooks((prev) => {
+        const filtered = prev.filter(
+          (b) =>
+            b.google_books_id !== result.google_books_id && b._id !== result._id
+        );
+        return [...filtered, result];
+      });
+      setBookDetails(result);
     } catch (error) {
       setError("Failed to add book");
     }
@@ -166,9 +190,7 @@ const Bookshelf = () => {
       setDbBooks((prev) =>
         prev.map((book) => (book._id === result._id ? result : book))
       );
-      setBooks((prev) =>
-        prev.map((book) => (book._id === result._id ? result : book))
-      );
+      setBookDetails(result);
     } catch (error) {
       setError("Failed to update book");
     }
@@ -178,7 +200,8 @@ const Bookshelf = () => {
     try {
       await deleteBookFromDB(id);
       setDbBooks((prev) => prev.filter((book) => book._id !== id));
-      setBooks((prev) => prev.filter((book) => book._id !== id));
+      setBookDetails(null);
+      setSelectedBookId(null);
     } catch (error) {
       setError("Failed to delete book");
     }
@@ -187,8 +210,15 @@ const Bookshelf = () => {
   const handleCategoryChange = (category) => {
     setFilterQuery(category);
     setSearchQuery("");
+    setSelectedBookId(null);
+    setBookDetails(null);
   };
-  const handleBackFromDetails = () => setSelectedBook(null);
+
+  const handleBackFromDetails = () => {
+    setSelectedBookId(null);
+    setBookDetails(null);
+  };
+
   return (
     <div className="books-page">
       <div className="bookshelf-cont">
@@ -202,17 +232,17 @@ const Bookshelf = () => {
           selected={filterQuery}
           onCategoryChange={handleCategoryChange}
         />
-        {selectedBook ? (
+        {bookDetails ? (
           <Bookdetails
-            book={selectedBook}
+            book={bookDetails}
             onBack={handleBackFromDetails}
             loading={loading}
             handleAddToRead={handleAddToRead}
             handleDeleteRead={handleDeleteBook}
             handleUpdateRead={handleUpdateBook}
             handleAddToReadLater={handleAddToReadLater}
-            readBooks={dbBooks.filter((b) => b.isRead)}
             handleDeleteReadLater={handleDeleteBook}
+            dbBooks={dbBooks}
           />
         ) : loading ? (
           <Loading />
@@ -223,28 +253,28 @@ const Bookshelf = () => {
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
-            onBookClick={setSelectedBook}
+            onBookClick={(book) => setSelectedBookId(book._id || book.id)}
           />
         ) : filterQuery === "Read Later" ? (
           <Readlater
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
-            onBookClick={setSelectedBook}
+            onBookClick={(book) => setSelectedBookId(book._id || book.id)}
           />
         ) : filterQuery === "My Books" ? (
           <Mybooks
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
-            onBookClick={setSelectedBook}
+            onBookClick={(book) => setSelectedBookId(book._id || book.id)}
           />
         ) : (
           <Allbooks
             books={books}
             onAddToRead={handleAddToRead}
             onAddToReadLater={handleAddToReadLater}
-            onBookClick={setSelectedBook}
+            onBookClick={(book) => setSelectedBookId(book._id || book.id)}
           />
         )}
       </div>
