@@ -15,6 +15,7 @@ import Loading from "../../components/Loading/Loading";
 import Readlater from "../../components/ReadLater/Readlater";
 import Readbooks from "../../components/ReadBooks/Readbooks";
 import Mybooks from "../../components/Mybooks/Mybooks";
+import Bookdetails from "../../components/Bookdetails/Bookdetails";
 
 const categories = [
   { title: "All Books" },
@@ -31,6 +32,7 @@ const Bookshelf = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -186,7 +188,7 @@ const Bookshelf = () => {
     setFilterQuery(category);
     setSearchQuery("");
   };
-
+  const handleBackFromDetails = () => setSelectedBook(null);
   return (
     <div className="books-page">
       <div className="bookshelf-cont">
@@ -200,7 +202,19 @@ const Bookshelf = () => {
           selected={filterQuery}
           onCategoryChange={handleCategoryChange}
         />
-        {loading ? (
+        {selectedBook ? (
+          <Bookdetails
+            book={selectedBook}
+            onBack={handleBackFromDetails}
+            loading={loading}
+            handleAddToRead={handleAddToRead}
+            handleDeleteRead={handleDeleteBook}
+            handleUpdateRead={handleUpdateBook}
+            handleAddToReadLater={handleAddToReadLater}
+            readBooks={dbBooks.filter((b) => b.isRead)}
+            handleDeleteReadLater={handleDeleteBook}
+          />
+        ) : loading ? (
           <Loading />
         ) : error ? (
           <p>{error}</p>
@@ -209,24 +223,28 @@ const Bookshelf = () => {
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
+            onBookClick={setSelectedBook}
           />
         ) : filterQuery === "Read Later" ? (
           <Readlater
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
+            onBookClick={setSelectedBook}
           />
         ) : filterQuery === "My Books" ? (
           <Mybooks
             books={books}
             onUpdate={handleUpdateBook}
             onDelete={handleDeleteBook}
+            onBookClick={setSelectedBook}
           />
         ) : (
           <Allbooks
             books={books}
             onAddToRead={handleAddToRead}
             onAddToReadLater={handleAddToReadLater}
+            onBookClick={setSelectedBook}
           />
         )}
       </div>

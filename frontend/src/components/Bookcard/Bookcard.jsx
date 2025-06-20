@@ -1,10 +1,10 @@
 import React from "react";
 import "./Bookcard.css";
 
-const Bookcard = ({ book }) => {
+const Bookcard = ({ book, onClick }) => {
   const info = book.volumeInfo || {};
   return (
-    <div className="book-card">
+    <div className="book-card" onClick={onClick}>
       <div className="book-card-media">
         <div className="movie-card-media">
           <img
