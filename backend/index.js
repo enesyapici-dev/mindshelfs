@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { PORT, mongoDBURL } from "./config.js";
 import moviesRoute from "./routes/moviesRoute.js";
+import booksRoute from "./routes/bookRoute.js";
 import cors from "cors";
 const app = express();
 
@@ -19,6 +20,8 @@ app.get("/", (request, response) => {
 });
 
 app.use("/movies", moviesRoute);
+app.use("/books", booksRoute);
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
